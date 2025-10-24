@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<!-- ヘッダー -->
+<head>
+    <title>ログイン</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+
+<!-- ボディ-->
+ <body>
+    <center>
+        <div class="container">
+            <h1>Scot Medal Park</h1>
+            <form action="/login" method="post">
+                <input type="text" name="loginID" class="textbox" required placeholder="ユーザー名">
+                <br><input type="password" name="loginPass" class="textbox" required placeholder="パスワード">
+                <br><input type="button" value="新規登録" class="button margin" onclick="">
+                <br><input type="submit" value="ログイン" class="button margin" onclick="login()">
+            </form>
+        </div>
+    </center>
+ </body>
+ <script src="script.js"></script>
