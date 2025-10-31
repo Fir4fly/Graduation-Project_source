@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<!-- ヘッダー -->
+	<head>
+		<meta charset="UTF-8">
+		<title>ホーム</title>
+		<link rel="stylesheet" th:href="@{/css/style.css}">
+	</head>
+
+	<!-- ボディー -->
+	<body>
+		<div class="container">
+			<div class="header">
+				<button class="profile-button">PROFILE</button>
+			</div>
+			
+			<h1>Scot Medal Park</h1>
+			
+			<div class="menu-grid">
+				<a th:href="@{/gamelist}">
+					<button class="gamelist-button">GAME LIST</button>
+				</a>
+				<a th:href="@{/shop}">
+					<button class="shop-button">SHOP</button>				
+				</a>
+				<a th:href="@{/ranking}">
+					<button class="ranking-button">RANKING</button>				
+				</a>
+				<a th:href="@{/achievements}">
+					<button class="achievements-button">ACHIEVEMENTS</button>			
+				</a>
+			</div>
+			
+			<div class="ranking-section">
+				<h3 class="ranking-title">RANKING</h3>
+				<div class="my-medals">
+					<span>My Medals</span>
+					<span th:text="${#numbers.formatDecimal(myMedals, 0, 'COMMA', 0, 'POINT')} + ' $'">1000 $</span> </div>
+					
+					<table class="ranking-table">
+						<tr th:each="rankUser, stat : ${rankingList}">
+							<td th:text="${stat.count}">1</td>
+							<td th:text="${rankUser.nickName}">user1</td>
+							<td th:text="${#numbers.formatDecimal(rankUser.myMedal, 0, 'COMMA', 0, 'POINT')} + ' $'">5000 $</td>
+						</tr>
+					</table>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>
