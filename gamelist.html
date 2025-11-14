@@ -1,101 +1,10 @@
 <!DOCTYPE html>
-<html lang="ja">
-	
-<!-- ヘッダー -->
+<html>
 <head>
-  <meta charset="UTF-8">
-  <title>Game List</title>
-  <style>
-    body {
-      background-color: #000;
-      color: gold;
-      font-family: 'Segoe UI', sans-serif;
-      text-align: center;
-      margin: 0;
-      padding: 0;
-    }
-
-    h1 {
-      font-size: 48px;
-      margin-top: 40px;
-      text-shadow: 0 0 10px gold, 0 0 20px gold;
-    }
-
-    .game-container {
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-      margin-top: 50px;
-      gap: 60px;
-    }
-
-    .game-card {
-      background-color: rgba(255, 215, 0, 0.1);
-      border: 2px solid gold;
-      border-radius: 15px;
-      padding: 20px;
-      width: 220px;
-      box-shadow: 0 0 15px gold;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-
-    .game-card:hover {
-      transform: scale(1.05);
-      box-shadow: 0 0 30px gold;
-    }
-
-    .game-image {
-      width: 100%;
-      height: auto;
-      border-radius: 10px;
-      object-fit: cover;
-      border: 1px solid gold;
-      margin-bottom: 15px;
-    }
-
-    .game-button {
-      background-color: gold;
-      color: black;
-      border: none;
-      border-radius: 10px;
-      padding: 10px 20px;
-      font-size: 18px;
-      font-weight: bold;
-      cursor: pointer;
-      transition: background-color 0.3s ease, transform 0.2s ease;
-    }
-
-    .game-button:hover {
-      background-color: #ffd700;
-      transform: translateY(-3px);
-    }
-  </style>
+<meta charset="UTF-8">
+<title>ゲームリスト</title>
 </head>
-
-<!-- ボディー -->
 <body>
-  <h1>Game List</h1>
 
-  <div class="game-container">
-    <div class="game-card">
-      <img src="/images/High&Low.jpg" alt="High & Low" class="game-image">
-      <button class="game-button">High & Low</button>
-    </div>
-
-    <div class="game-card">
-      <img src="/images/Poker.jpg" alt="Poker" class="game-image">
-      <button class="game-button">Poker</button>
-    </div>
-
-    <div class="game-card">
-      <img src="/images/BlackJack.jpg" alt="Black Jack" class="game-image">
-      <button class="game-button">Black Jack</button>
-    </div>
-
-    <div class="game-card">
-      <img src="/images/Roulette.jpg" alt="Roulette" class="game-image">
-      <button class="game-button">Roulette</button>
-    </div>
-  </div>
 </body>
 </html>
