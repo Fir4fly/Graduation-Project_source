@@ -40,7 +40,7 @@
 					<table class="ranking-table">
 						<tr th:each="rankUser, stat : ${rankingList}">
 							<td th:text="${stat.count}">1</td>
-							<td th:text="${rankUser.nickName}">user1</td>
+							<td th:text="${rankUser.nickname}">user1</td>
 							<td th:text="${#numbers.formatDecimal(rankUser.myMedal, 0, 'COMMA', 0, 'POINT')} + ' $'">5000 $</td>
 						</tr>
 					</table>

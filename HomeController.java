@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.example.demo.model.Medal;
 import com.example.demo.service.MedalService;
@@ -17,14 +17,14 @@ public class HomeController {
 	@Autowired
 	private MedalService medalService;
 	
-	@PostMapping("/home")
+	@RequestMapping("/home")
 	public String showHomePage(
 			//@RequestParam(name = "loginID") String loginID,
 			//@RequestParam(name = "nickname") String nickname,
 			Model model
 		){
-		String loginID = "1";
-		String nickname = "2";
+		String loginID = (String)model.getAttribute("loginID");
+		String nickname = (String)model.getAttribute("nickname");
 		
 		Optional<Medal> myMedalOptional = medalService.getMyMedalInfo(loginID);
 		

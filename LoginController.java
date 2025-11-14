@@ -26,7 +26,8 @@ public class LoginController {
     	User authenticatedUser = userService.authenticate(loginID, loginPass);
         if (authenticatedUser != null) {
         	//String encodedNickname = authenticatedUser.getNickname();
-            //model.addAttribute("loginID", authenticatedUser.getLoginID());
+        	model.addAttribute("nickname", authenticatedUser.getNickname());
+            model.addAttribute("loginID", authenticatedUser.getLoginID());
         	return "forward:/home";
         	//?loginId=" + authenticatedUser.getLoginID() + "&nickname=" + encodedNickname;
         } else {
