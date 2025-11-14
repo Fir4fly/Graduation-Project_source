@@ -15,6 +15,11 @@ public class MedalService {
 	@Autowired
 	private MedalRepository medalRepository;
 	
+	/**
+     * ログインIDからユーザーのメダル情報を取得します。
+     * @param loginID ログインユーザーのID
+     * @return Medal情報のOptional
+     */
 	public Optional<Medal> getMyMedalInfo(String loginID){
 		return medalRepository.findByLoginID(loginID);
 	}

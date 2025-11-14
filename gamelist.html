@@ -52,6 +52,11 @@
       border: 1px solid gold;
       margin-bottom: 15px;
     }
+	
+	.game-link{
+		text-decoration: none;
+		display: block;
+	}
 
     .game-button {
       background-color: gold;
@@ -62,6 +67,7 @@
       font-size: 18px;
       font-weight: bold;
       cursor: pointer;
+	  width: 100%;
       transition: background-color 0.3s ease, transform 0.2s ease;
     }
 
@@ -80,6 +86,7 @@
     <div class="game-card">
       <img src="/images/High-Low.jpg" alt="High & Low" class="game-image">
 	  <a th:href="@{/High_Low}">
+<!--	  <a href="High_Low.html" class="game-link">-->
       <button class="game-button">High & Low</button>
 	  </a>
     </div>

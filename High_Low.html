@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>High & Low ゲーム</title>
+    <style>
+        /* ここに提供された画像に合わせた簡易的なスタイルを記述します */
+        body {
+            background-color: #4CAF50; /* イメージ図の背景色に近い緑 */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            width: 800px;
+            padding: 30px;
+            border: 5px solid #ff9800; /* オレンジ色の枠線 */
+            border-radius: 10px;
+            background-color: #00bcd4; /* 内側の青緑色の背景 */
+            display: grid;
+            grid-template-areas:
+                "home bet reset medal"
+                "card1 card2 high low"
+                "card1 card2 high low"
+                "bet1 bet5 bet10 bet50";
+            grid-template-columns: 1fr 1fr 150px 150px;
+            grid-template-rows: auto auto auto 80px;
+            gap: 20px;
+            align-items: center;
+            justify-items: center;
+        }
+        .home-btn {
+            grid-area: home;
+            justify-self: start;
+            padding: 10px 20px;
+            background-color: #9c27b0; /* 紫色のボタン */
+            color: white;
+            border: 2px solid #ffeb3b; /* 黄色の枠線 */
+            cursor: pointer;
+        }
+        .bet-count {
+            grid-area: bet;
+            background-color: black;
+            color: white;
+            padding: 15px 30px;
+            border-radius: 5px;
+            font-size: 24px;
+        }
+        .reset-btn {
+            grid-area: reset;
+            background-color: #d32f2f; /* 赤系のボタン */
+            color: white;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+        .medal-count {
+            grid-area: medal;
+            padding: 10px;
+            border: 1px solid black;
+            font-size: 18px;
+        }
+        .card {
+            width: 90%;
+            aspect-ratio: 2 / 3;
+            border: 1px solid black;
+            background-color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.2em;
+        }
+        .card1 { grid-area: card1; }
+        .card2 { grid-area: card2; }
+        .high-btn, .low-btn {
+            background-color: #8d3a1f; /* 赤茶色のボタン */
+            color: white;
+            font-size: 24px;
+            padding: 20px;
+            width: 100%;
+            cursor: pointer;
+            border: none;
+        }
+        .high-btn { grid-area: high; }
+        .low-btn { grid-area: low; }
+        .bet-btn {
+            background-color: #8d3a1f;
+            color: white;
+            font-size: 18px;
+            padding: 15px 30px;
+            width: 100%;
+            cursor: pointer;
+            border: none;
+        }
+        .bet1-btn { grid-area: bet1; }
+        .bet5-btn { grid-area: bet5; }
+        .bet10-btn { grid-area: bet10; }
+        .bet50-btn { grid-area: bet50; }
+        /* ゲーム結果メッセージ用のスタイル (任意) */
+        .message {
+            grid-column: 1 / span 4;
+            text-align: center;
+            color: yellow;
+            font-size: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <form th:action="@{/home}" method="get" class="home-btn">
+            <button type="submit" class="home-btn">HOME</button>
+        </form>
+
+        <div class="bet-count">
+            <span th:text="${betCount}" id="HLBetMedal">0</span> </div>
+
+        <button type="button" class="reset-btn" onclick="resetBet()">RESET</button>
+
+        <div class="medal-count">
+            所持メダル数: <span th:text="${user.mymedal}" id="Mymedal">5000</span> </div>
+
+        <div class="card card1">
+            <span th:text="${faceUpCard}">表向きのカード</span> </div>
+
+        <div class="card card2">
+            <span th:text="${faceDownCard}">裏向きのカード</span> </div>
+        
+        <button type="button" class="high-btn" onclick="placeBet('HIGH')">HIGH</button>
+
+        <button type="button" class="low-btn" onclick="placeBet('LOW')">LOW</button>
+
+        <div class="message" id="game-message"></div>
+
+        <button type="button" class="bet-btn bet1-btn" onclick="addBet(1)">1BET</button>
+
+        <button type="button" class="bet-btn bet5-btn" onclick="addBet(5)">5BET</button>
+
+        <button type="button" class="bet-btn bet10-btn" onclick="addBet(10)">10BET</button>
+
+        <button type="button" class="bet-btn bet50-btn" onclick="addBet(50)">50BET</button>
+    </div>
+
+<!--    <script>-->
+<!--        // ここにHIGH/LOWのゲームロジック（JavaScript）を記述します。-->
+<!--        // ベット数の増減、リセット、HIGH/LOWの判定、エラー表示などの処理が必要です。-->
+<!--        // Spring BootのコントローラーとAPI連携するためのAjax/Fetch処理も必要になります。-->
+
+<!--        const betCountElement = document.getElementById('HLBetMedal');-->
+<!--        const myMedalElement = document.getElementById('Mymedal');-->
+<!--        const gameMessage = document.getElementById('game-message');-->
+        
+<!--        let currentBet = parseInt(betCountElement.textContent);-->
+<!--        let currentMedal = parseInt(myMedalElement.textContent);-->
+
+<!--        function updateBetDisplay() {-->
+<!--            betCountElement.textContent = currentBet;-->
+<!--        }-->
+        
+<!--        function addBet(amount) {-->
+<!--            currentMedal = parseInt(myMedalElement.textContent); // 最新のメダル数を再取得-->
+<!--            if (currentBet + amount > 999) {-->
+<!--                gameMessage.textContent = 'ベット数は999枚までです。';-->
+<!--                return;-->
+<!--            }-->
+<!--            if (currentBet + amount > currentMedal) {-->
+<!--                gameMessage.textContent = '所持メダル数を超えてベットすることはできません。';-->
+<!--                return;-->
+<!--            }-->
+            
+<!--            currentBet += amount;-->
+<!--            updateBetDisplay();-->
+<!--            gameMessage.textContent = '';-->
+<!--        }-->
+
+<!--        function resetBet() {-->
+<!--            currentBet = 0;-->
+<!--            updateBetDisplay();-->
+<!--            gameMessage.textContent = '';-->
+<!--        }-->
+
+<!--        function placeBet(choice) {-->
+<!--            if (currentBet <= 0) {-->
+<!--                gameMessage.textContent = 'ベット数が0枚です。';-->
+<!--                return;-->
+<!--            }-->
+            
+<!--            // 実際のゲーム処理（Ajax/Fetchを使用してSpring Bootコントローラーに送信）-->
+<!--            gameMessage.textContent = `[${choice}]に${currentBet}枚ベットしました。判定中...`;-->
+            
+<!--            // 以下は、サーバーサイドとの連携のPlaceholderです。-->
+<!--            /*-->
+<!--            fetch('/api/highlow/play', {-->
+<!--                method: 'POST',-->
+<!--                headers: { 'Content-Type': 'application/json' },-->
+<!--                body: JSON.stringify({ bet: currentBet, choice: choice })-->
+<!--            })-->
+<!--            .then(response => response.json())-->
+<!--            .then(data => {-->
+<!--                // サーバーからの結果 (win/lose, newMedalCount, cards) を反映-->
+<!--                currentMedal = data.newMedalCount;-->
+<!--                myMedalElement.textContent = currentMedal;-->
+                
+<!--                if (data.result === 'WIN') {-->
+<!--                    gameMessage.textContent = 'WIN！メダルを獲得しました。';-->
+<!--                } else {-->
+<!--                    gameMessage.textContent = 'LOSE... メダルが減りました。';-->
+<!--                }-->
+                
+<!--                currentBet = 0; // ベットをリセット-->
+<!--                updateBetDisplay();-->
+<!--            })-->
+<!--            .catch(error => {-->
+<!--                console.error('Error:', error);-->
+<!--                gameMessage.textContent = 'ゲーム処理中にエラーが発生しました。';-->
+<!--            });-->
+<!--            */-->
+            
+<!--            // デモ用: ベットをリセットしてメッセージを表示-->
+<!--            // resetBet();-->
+<!--        }-->
+<!--    </script>-->
+</body>
+</html>

@@ -1,4 +1,6 @@
 package com.example.demo.controller;
+import jakarta.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,13 +24,14 @@ public class LoginController {
     @PostMapping("/login")
     public String login(@RequestParam("loginID") String loginID,
                         @RequestParam("loginPass") String loginPass,
-                        Model model) {
+                        Model model,
+                        HttpSession session) {
     	User authenticatedUser = userService.authenticate(loginID, loginPass);
         if (authenticatedUser != null) {
         	//String encodedNickname = authenticatedUser.getNickname();
-        	model.addAttribute("nickname", authenticatedUser.getNickname());
-            model.addAttribute("loginID", authenticatedUser.getLoginID());
-        	return "forward:/home";
+        	session.setAttribute("nickname", authenticatedUser.getNickname());
+            session.setAttribute("loginID", authenticatedUser.getLoginID());
+        	return "redirect:/home";
         	//?loginId=" + authenticatedUser.getLoginID() + "&nickname=" + encodedNickname;
         } else {
             model.addAttribute("error", "ユーザー名またはパスワードが間違っています");
