@@ -1,10 +1,309 @@
 <!DOCTYPE html>
-<html>
+<html lang="ja">
 <head>
-<meta charset="UTF-8">
-<title>ランキング</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RANKING Screen Scroll Mockup</title>
+    <style>
+        /* 全体のスタイル設定 */
+        body {
+            background-color: #000;
+            color: #FFD700; /* ゴールド/イエロー */
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+        }
+
+        /* コンテナ (画面全体) */
+        .ranking-container {
+            width: 375px; /* スマートフォン画面を想定した幅 */
+            max-width: 100%;
+            background-color: #000;
+            border: 1px solid #FFD700;
+            box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+            padding: 10px;
+            box-sizing: border-box;
+        }
+
+        /* ヘッダー */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 5px 0 10px;
+            border-bottom: 3px solid #FFD700;
+            position: relative;
+        }
+
+        .header h1 {
+            font-size: 32px;
+            font-weight: bold;
+            margin: 0;
+            padding: 0;
+            letter-spacing: 2px;
+        }
+
+        .profile-btn {
+            background-color: #FFD700;
+            color: #000;
+            border: none;
+            padding: 8px 15px;
+            font-weight: bold;
+            cursor: pointer;
+            text-transform: uppercase;
+            font-size: 14px;
+        }
+
+        /* ナビゲーション */
+        .navigation {
+            display: flex;
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        .nav-item {
+            flex-grow: 1;
+            text-align: center;
+            padding: 10px 0;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+            border-bottom: 2px solid transparent;
+            text-transform: uppercase;
+        }
+
+        .nav-item.active {
+            background-color: rgba(255, 215, 0, 0.1);
+            border-bottom: 3px solid #FFD700;
+        }
+
+        /* メダル情報 */
+        .medal-info {
+            background-color: rgba(255, 215, 0, 0.1);
+            border: 1px solid #FFD700;
+            margin-top: 15px;
+            padding: 10px;
+        }
+
+        .medal-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 5px 0;
+            font-size: 16px;
+        }
+        
+        /* ユーザーランキングテーブル */
+        .ranking-table {
+            margin-top: 20px;
+        }
+
+        .ranking-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+            font-size: 18px;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .arrow {
+            font-size: 20px;
+            cursor: pointer;
+            padding: 0 10px;
+        }
+        
+        /* 🔥 ここがスクロール設定の重要な変更点です 🔥 */
+        .ranking-list {
+            margin-top: 5px;
+            border-top: 2px solid #FFD700;
+            max-height: 350px; /* スクロール領域の最大高さを設定 */
+            overflow-y: scroll; /* 縦方向のスクロールを有効にする */
+            -ms-overflow-style: none; /* IEとEdgeでスクロールバーを非表示 */
+            scrollbar-width: none; /* Firefoxでスクロールバーを非表示 */
+        }
+        
+        /* Webkit系のブラウザ (Chrome, Safari) でスクロールバーを非表示にする */
+        .ranking-list::-webkit-scrollbar {
+            display: none;
+        }
+
+        .ranking-row {
+            display: flex;
+            border-bottom: 1px solid rgba(255, 215, 0, 0.3);
+            font-size: 18px;
+        }
+        
+        /* 最後の行の区切り線を消す */
+        .ranking-list .ranking-row:last-child {
+             border-bottom: none;
+        }
+
+        .ranking-row > div {
+            padding: 10px 5px;
+            text-align: center;
+            border-right: 1px solid rgba(255, 215, 0, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-sizing: border-box;
+        }
+
+        .ranking-row > div:last-child {
+            border-right: none;
+        }
+
+        .rank-col {
+            width: 15%;
+            font-weight: bold;
+        }
+
+        .name-col {
+            width: 45%;
+            justify-content: flex-start;
+            padding-left: 15px !important;
+        }
+
+        .medals-col {
+            width: 40%;
+        }
+
+        /* 自分のランキング (下部の固定表示) */
+        .my-ranking {
+            margin-top: 10px; /* スクロール領域との間隔を調整 */
+            border: 2px solid #FFD700;
+            font-size: 18px;
+            font-weight: bold;
+        }
+        
+        .my-ranking .ranking-row {
+            border-bottom: none;
+        }
+        
+        .my-ranking .ranking-row > div {
+            padding: 15px 5px;
+        }
+        
+        .user-medals {
+            color: #FFF;
+        }
+        
+    </style>
 </head>
 <body>
+
+<div class="ranking-container">
+    
+    <div class="header">
+        <h1>RANKING</h1>
+        <button class="profile-btn">PROFILE</button>
+    </div>
+
+    <div class="navigation">
+        <div class="nav-item active">HOME</div>
+        <div class="nav-item">GAME</div>
+        <div class="nav-item">SHOP</div>
+        <div class="nav-item">ACHIVEMENTS</div>
+    </div>
+
+    <div class="medal-info">
+        <div class="medal-row">
+            <span>My Medals</span>
+            <span class="user-medals">2000 $</span>
+        </div>
+        <div class="medal-row">
+            <span>Season Medals</span>
+            <span class="user-medals">1500 $</span>
+        </div>
+    </div>
+    
+    <div class="ranking-table">
+        <div class="ranking-header">
+            <span class="arrow" role="button" aria-label="Previous Ranking">◀</span>
+            <span>User Medals</span>
+            <span class="arrow" role="button" aria-label="Next Ranking">▶</span>
+        </div>
+
+        <div class="ranking-list">
+            <div class="ranking-row">
+                <div class="rank-col">1</div>
+                <div class="name-col">user1</div>
+                <div class="medals-col user-medals">1,000,000 $</div>
+            </div>
+            <div class="ranking-row">
+                <div class="rank-col">2</div>
+                <div class="name-col">user2</div>
+                <div class="medals-col user-medals">300,000 $</div>
+            </div>
+            <div class="ranking-row">
+                <div class="rank-col">3</div>
+                <div class="name-col">user3</div>
+                <div class="medals-col user-medals">100,000 $</div>
+            </div>
+            
+            <div class="ranking-row">
+                <div class="rank-col">4</div>
+                <div class="name-col">user_alpha</div>
+                <div class="medals-col user-medals">50,000 $</div>
+            </div>
+            <div class="ranking-row">
+                <div class="rank-col">5</div>
+                <div class="name-col">user_beta</div>
+                <div class="medals-col user-medals">45,000 $</div>
+            </div>
+            <div class="ranking-row">
+                <div class="rank-col">6</div>
+                <div class="name-col">user_gamma</div>
+                <div class="medals-col user-medals">38,000 $</div>
+            </div>
+            <div class="ranking-row">
+                <div class="rank-col">7</div>
+                <div class="name-col">user_delta</div>
+                <div class="medals-col user-medals">32,000 $</div>
+            </div>
+            <div class="ranking-row">
+                <div class="rank-col">8</div>
+                <div class="name-col">user_epsilon</div>
+                <div class="medals-col user-medals">25,000 $</div>
+            </div>
+            <div class="ranking-row">
+                <div class="rank-col">9</div>
+                <div class="name-col">user_zeta</div>
+                <div class="medals-col user-medals">20,000 $</div>
+            </div>
+            <div class="ranking-row">
+                <div class="rank-col">10</div>
+                <div class="name-col">user_eta</div>
+                <div class="medals-col user-medals">15,000 $</div>
+            </div>
+            <div class="ranking-row"><div class="rank-col">11</div><div class="name-col">user_t1</div><div class="medals-col user-medals">14,000 $</div></div>
+            <div class="ranking-row"><div class="rank-col">12</div><div class="name-col">user_t2</div><div class="medals-col user-medals">13,500 $</div></div>
+            <div class="ranking-row"><div class="rank-col">13</div><div class="name-col">user_t3</div><div class="medals-col user-medals">13,000 $</div></div>
+            <div class="ranking-row"><div class="rank-col">14</div><div class="name-col">user_t4</div><div class="medals-col user-medals">12,500 $</div></div>
+            <div class="ranking-row"><div class="rank-col">15</div><div class="name-col">user_t5</div><div class="medals-col user-medals">12,000 $</div></div>
+            <div class="ranking-row"><div class="rank-col">16</div><div class="name-col">user_t6</div><div class="medals-col user-medals">11,500 $</div></div>
+            <div class="ranking-row"><div class="rank-col">17</div><div class="name-col">user_t7</div><div class="medals-col user-medals">11,000 $</div></div>
+            <div class="ranking-row"><div class="rank-col">18</div><div class="name-col">user_t8</div><div class="medals-col user-medals">10,500 $</div></div>
+            <div class="ranking-row"><div class="rank-col">19</div><div class="name-col">user_t9</div><div class="medals-col user-medals">10,000 $</div></div>
+            <div class="ranking-row"><div class="rank-col">20</div><div class="name-col">user_t10</div><div class="medals-col user-medals">9,500 $</div></div>
+            <div class="ranking-row"><div class="rank-col">21</div><div class="name-col">user_t11</div><div class="medals-col user-medals">9,000 $</div></div>
+            <div class="ranking-row"><div class="rank-col">22</div><div class="name-col">user_t12</div><div class="medals-col user-medals">8,500 $</div></div>
+        </div>
+    </div>
+    
+    <div class="my-ranking">
+        <div class="ranking-row">
+            <div class="rank-col">10</div>
+            <div class="name-col">Me</div>
+            <div class="medals-col user-medals">2000 $</div>
+        </div>
+    </div>
+    
+</div>
 
 </body>
 </html>
