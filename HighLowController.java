@@ -7,7 +7,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import com.example.demo.model.User;
+import com.example.demo.model.Medal;
+import com.example.demo.service.MedalService;
 import com.example.demo.service.UserService;
 
 @Controller
@@ -15,6 +16,9 @@ public class HighLowController {
 
     @Autowired
     private UserService userService; // Userの情報を取得するためのサービス
+    
+    @Autowired
+    private MedalService medalService;
 
     /**
      * High&Lowゲーム画面の表示
@@ -26,16 +30,10 @@ public class HighLowController {
 
         // データベースからユーザー情報を取得
         // 実際にはログインセッションからユーザーIDを取得することが推奨されます
-        User user = userService.findByLoginId(loginId); 
-
-        if (user == null) {
-            // ユーザーが見つからない場合はエラー処理
-            // 例: ログイン画面へリダイレクト
-            return "redirect:/login"; 
-        }
+        Medal medal = medalService.findByLoginId(loginId); 
 
         // Thymeleafに渡すデータ
-        model.addAttribute("user", user);       // ユーザー情報 (mymedal表示用)
+        model.addAttribute("user", medal);       // ユーザー情報 (mymedal表示用)
         model.addAttribute("betCount", 0);     // 初期ベット数
         
         // カードの初期表示 (ここはビジネスロジックで制御されます)

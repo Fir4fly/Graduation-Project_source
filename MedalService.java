@@ -27,4 +27,10 @@ public class MedalService {
 	public List<Medal> getTopRanking() {
 		return medalRepository.findTop3ByOrderByMyMedalDesc();
 	}
+	
+	public Medal findByLoginId(String loginId) {
+		Optional<Medal> medalOptional = medalRepository.findByLoginID(loginId);
+		
+		return medalOptional.orElse(null);
+	}
 }
