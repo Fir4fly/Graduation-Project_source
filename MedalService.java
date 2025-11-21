@@ -21,7 +21,7 @@ public class MedalService {
      * @return Medal情報のOptional
      */
 	public Optional<Medal> getMyMedalInfo(String loginID){
-		return medalRepository.findByLoginID(loginID);
+		return medalRepository.findByLoginId(loginID);
 	}
 	
 	public List<Medal> getTopRanking() {
@@ -29,8 +29,12 @@ public class MedalService {
 	}
 	
 	public Medal findByLoginId(String loginId) {
-		Optional<Medal> medalOptional = medalRepository.findByLoginID(loginId);
-		
-		return medalOptional.orElse(null);
+		return medalRepository.findByLoginId(loginId).orElse(null);
 	}
+	
+	public void updateMedal(Medal medal) {
+        if (medal != null) {
+            medalRepository.save(medal);  // save が INSERT/UPDATE を兼ねる
+        }
+    }
 }

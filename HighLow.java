@@ -6,48 +6,78 @@ package com.example.demo.model;
  */
 public class HighLow {
 
-    private int betCount;    // 現在のベット数 (HLBetMedal)
+    private int betAmount;    // 現在のベット数 (HLBetMedal)
     private String faceUpCard; // 表向きのカード (例: "A", "2", "K")
-    private String faceDownCard; // 裏向きのカード (未めくり時は"?"、めくり後は値)
-    private String playerChoice; // プレイヤーの選択 ("HIGH" or "LOW")
+    private String newCard; // 裏向きのカード (未めくり時は"?"、めくり後は値)
+    private String choice; //プレイヤーが選択したもの
+    private String result; //結果
+    private int medalChange; //メダルの増減
+    private int newMedal; //更新後のメダル
 
     // コンストラクタ
     public HighLow() {
-        this.setBetCount(0);
-        this.setFaceUpCard("");
-        this.setFaceDownCard("?");
-        this.setPlayerChoice("");
+        this.betAmount = 0;
+        this.choice = "";
+        this.faceUpCard = "";
+        this.newCard = "?";
+        this.result = "";
+        this.medalChange = 0;
+        this.newMedal = 0;
     }
 
-	public int getBetCount() {
-		return betCount;
-	}
+    public int getBetAmount() {
+        return betAmount;
+    }
 
-	public void setBetCount(int betCount) {
-		this.betCount = betCount;
-	}
+    public void setBetAmount(int betAmount) {
+        this.betAmount = betAmount;
+    }
 
-	public String getFaceUpCard() {
-		return faceUpCard;
-	}
+    public String getChoice() {
+        return choice;
+    }
 
-	public void setFaceUpCard(String faceUpCard) {
-		this.faceUpCard = faceUpCard;
-	}
+    public void setChoice(String choice) {
+        this.choice = choice;
+    }
 
-	public String getPlayerChoice() {
-		return playerChoice;
-	}
+    public String getFaceUpCard() {
+        return faceUpCard;
+    }
 
-	public void setPlayerChoice(String playerChoice) {
-		this.playerChoice = playerChoice;
-	}
+    public void setFaceUpCard(String faceUpCard) {
+        this.faceUpCard = faceUpCard;
+    }
 
-	public String getFaceDownCard() {
-		return faceDownCard;
-	}
+    public String getNewCard() {
+        return newCard;
+    }
 
-	public void setFaceDownCard(String faceDownCard) {
-		this.faceDownCard = faceDownCard;
-	}
+    public void setNewCard(String newCard) {
+        this.newCard = newCard;
+    }
+
+    public String getResult() {
+        return result;
+    }
+
+    public void setResult(String result) {
+        this.result = result;
+    }
+
+    public int getMedalChange() {
+        return medalChange;
+    }
+
+    public void setMedalChange(int medalChange) {
+        this.medalChange = medalChange;
+    }
+
+    public int getNewMedal() {
+        return newMedal;
+    }
+
+    public void setNewMedal(int newMedal) {
+        this.newMedal = newMedal;
+    }
 }

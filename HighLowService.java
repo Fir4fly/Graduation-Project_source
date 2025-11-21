@@ -6,6 +6,8 @@ import java.util.Random;
 
 import org.springframework.stereotype.Service;
 
+import com.example.demo.model.HighLow;
+
 @Service
 public class HighLowService {
 
@@ -72,5 +74,31 @@ public class HighLowService {
         } else {
             return -betAmount;
         }
+    }
+    
+    public HighLow playGame(int betAmount, String choice, int currentMedal, int faceUpCardValue) {
+
+        // 表のカード
+    	int faceUp = faceUpCardValue;
+
+        // 裏のカード
+        int newCard = drawCardValue();
+
+        // 勝敗判定
+        String result = determineWinner(faceUp, newCard, choice);
+
+        // メダル増減
+        int medalChange = calculateMedalChange(result, betAmount);
+        int updatedMedal = currentMedal + medalChange;
+
+        // HighLow 結果オブジェクトへ詰める
+        HighLow gameResult = new HighLow();
+        gameResult.setFaceUpCard(getCardName(faceUp));
+        gameResult.setNewCard(getCardName(newCard));
+        gameResult.setResult(result);
+        gameResult.setMedalChange(medalChange);
+        gameResult.setNewMedal(updatedMedal);
+
+        return gameResult;
     }
 }

@@ -105,6 +105,31 @@
             color: yellow;
             font-size: 20px;
         }
+		
+		/* -------- popup -------- */
+		.popup {
+		    position:absolute;
+		    bottom:0;
+		    left:0;
+		    width:100%;
+		    background:rgba(0,0,0,0.8);
+		    color:white;
+		    padding:20px;
+		    text-align:center;
+		}
+
+		.popup-content {
+		    margin:auto;
+		    font-size:22px;
+		}
+
+		.popup button {
+		    margin-top:10px;
+		    padding:10px 20px;
+		    font-size:20px;
+		    cursor:pointer;
+		}
+
     </style>
 </head>
 <body>
@@ -122,14 +147,24 @@
             所持メダル数: <span th:text="${user.myMedal}" id="Mymedal">5000</span> </div>
 
         <div class="card card1">
-            <span th:text="${faceUpCard}">表向きのカード</span> </div>
+            <span id="faceUpCard" th:text="${faceUpCard}">表向きのカード</span> </div>
 
         <div class="card card2">
-            <span th:text="${faceDownCard}">裏向きのカード</span> </div>
+            <span id="faceDownCard" th:text="${faceDownCard}">裏向きのカード</span> </div>
         
         <button type="button" class="high-btn" onclick="placeBet('HIGH')">HIGH</button>
 
         <button type="button" class="low-btn" onclick="placeBet('LOW')">LOW</button>
+		
+		<!-- ★ ポップアップ（結果表示） -->
+		<div id="resultPopup" class="popup" style="display:none;">
+		    <div class="popup-content">
+		        <p id="popupResult"></p>
+		        <p id="popupCards"></p>
+		        <button onclick="closePopup()">NEXT</button>
+		    </div>
+		</div>
+
 
         <div class="message" id="game-message"></div>
 
@@ -142,84 +177,113 @@
         <button type="button" class="bet-btn bet50-btn" onclick="addBet(50)">50BET</button>
     </div>
 
-<!--    <script>-->
-<!--        // ここにHIGH/LOWのゲームロジック（JavaScript）を記述します。-->
-<!--        // ベット数の増減、リセット、HIGH/LOWの判定、エラー表示などの処理が必要です。-->
-<!--        // Spring BootのコントローラーとAPI連携するためのAjax/Fetch処理も必要になります。-->
+	<script>
+	    const betCountElement = document.getElementById('HLBetMedal');
+	    const myMedalElement = document.getElementById('Mymedal');
+	    const gameMessage = document.getElementById('game-message');
 
-<!--        const betCountElement = document.getElementById('HLBetMedal');-->
-<!--        const myMedalElement = document.getElementById('Mymedal');-->
-<!--        const gameMessage = document.getElementById('game-message');-->
-        
-<!--        let currentBet = parseInt(betCountElement.textContent);-->
-<!--        let currentMedal = parseInt(myMedalElement.textContent);-->
+	    let currentBet = parseInt(betCountElement.textContent);
+	    let currentMedal = parseInt(myMedalElement.textContent);
 
-<!--        function updateBetDisplay() {-->
-<!--            betCountElement.textContent = currentBet;-->
-<!--        }-->
-        
-<!--        function addBet(amount) {-->
-<!--            currentMedal = parseInt(myMedalElement.textContent); // 最新のメダル数を再取得-->
-<!--            if (currentBet + amount > 999) {-->
-<!--                gameMessage.textContent = 'ベット数は999枚までです。';-->
-<!--                return;-->
-<!--            }-->
-<!--            if (currentBet + amount > currentMedal) {-->
-<!--                gameMessage.textContent = '所持メダル数を超えてベットすることはできません。';-->
-<!--                return;-->
-<!--            }-->
-            
-<!--            currentBet += amount;-->
-<!--            updateBetDisplay();-->
-<!--            gameMessage.textContent = '';-->
-<!--        }-->
+		window.onload = () => {
+			document.querySelector('.card1 span').textContent =
+		    	document.getElementById("faceUpCard").textContent;
 
-<!--        function resetBet() {-->
-<!--            currentBet = 0;-->
-<!--            updateBetDisplay();-->
-<!--            gameMessage.textContent = '';-->
-<!--        }-->
+		    document.querySelector('.card2 span').textContent =
+		        document.getElementById("faceDownCard").textContent;
+		};
+			
+	    function updateBetDisplay() {
+	        betCountElement.textContent = currentBet;
+	    }
 
-<!--        function placeBet(choice) {-->
-<!--            if (currentBet <= 0) {-->
-<!--                gameMessage.textContent = 'ベット数が0枚です。';-->
-<!--                return;-->
-<!--            }-->
-            
-<!--            // 実際のゲーム処理（Ajax/Fetchを使用してSpring Bootコントローラーに送信）-->
-<!--            gameMessage.textContent = `[${choice}]に${currentBet}枚ベットしました。判定中...`;-->
-            
-<!--            // 以下は、サーバーサイドとの連携のPlaceholderです。-->
-<!--            /*-->
-<!--            fetch('/api/highlow/play', {-->
-<!--                method: 'POST',-->
-<!--                headers: { 'Content-Type': 'application/json' },-->
-<!--                body: JSON.stringify({ bet: currentBet, choice: choice })-->
-<!--            })-->
-<!--            .then(response => response.json())-->
-<!--            .then(data => {-->
-<!--                // サーバーからの結果 (win/lose, newMedalCount, cards) を反映-->
-<!--                currentMedal = data.newMedalCount;-->
-<!--                myMedalElement.textContent = currentMedal;-->
-                
-<!--                if (data.result === 'WIN') {-->
-<!--                    gameMessage.textContent = 'WIN！メダルを獲得しました。';-->
-<!--                } else {-->
-<!--                    gameMessage.textContent = 'LOSE... メダルが減りました。';-->
-<!--                }-->
-                
-<!--                currentBet = 0; // ベットをリセット-->
-<!--                updateBetDisplay();-->
-<!--            })-->
-<!--            .catch(error => {-->
-<!--                console.error('Error:', error);-->
-<!--                gameMessage.textContent = 'ゲーム処理中にエラーが発生しました。';-->
-<!--            });-->
-<!--            */-->
-            
-<!--            // デモ用: ベットをリセットしてメッセージを表示-->
-<!--            // resetBet();-->
-<!--        }-->
-<!--    </script>-->
+	    function addBet(amount) {
+	        currentMedal = parseInt(myMedalElement.textContent); // 最新のメダル数
+	        if (currentBet + amount > 999) {
+	            gameMessage.textContent = 'ベットは999枚までです。';
+	            return;
+	        }
+	        if (currentBet + amount > currentMedal) {
+	            gameMessage.textContent = '所持メダル数を超えてベットできません。';
+	            return;
+	        }
+	        currentBet += amount;
+	        updateBetDisplay();
+	        gameMessage.textContent = '';
+	    }
+
+	    function resetBet() {
+	        currentBet = 0;
+	        updateBetDisplay();
+	        gameMessage.textContent = '';
+	    }
+
+	    // 🎮 HIGH / LOW ボタン押下
+	    function placeBet(choice) {
+	        if (currentBet <= 0) {
+	            gameMessage.textContent = 'ベット数が0枚です。';
+	            return;
+	        }
+
+	        // Controller へ送信する JSON
+	        const requestBody = {
+	            betAmount: currentBet,
+	            choice: choice
+	        };
+
+	        fetch('/api/highlow/play', {
+	            method: 'POST',
+	            headers: { 'Content-Type': 'application/json' },
+	            body: JSON.stringify(requestBody)
+	        })
+	        .then(res => {
+	            if (!res.ok) {
+	                throw new Error("サーバーエラー");
+	            }
+	            return res.json();
+	        })
+			.then(data => {
+
+			    // ★ 裏向きカードをひっくり返す
+			    document.querySelector('.card2 span').textContent = data.newCard;
+
+			    // ★ 結果をポップアップに表示
+			    const popup = document.getElementById("resultPopup");
+			    document.getElementById("popupResult").textContent =
+			        (data.result === "WIN")
+			            ? `WIN！！ +${data.medalChange} メダル`
+			            : `LOSE... ${data.medalChange} メダル`;
+
+			    document.getElementById("popupCards").textContent =
+			        `表:${data.faceUpCard}  裏:${data.newCard}`;
+
+			    popup.style.display = "block";
+
+			    myMedalElement.textContent = data.newMedal;
+
+			    currentBet = 0;
+			    updateBetDisplay();
+			})
+
+	        .catch(error => {
+	            console.error("通信エラー:", error);
+	            gameMessage.textContent = '通信中にエラーが発生しました。';
+	        });
+	    }
+		
+		function closePopup() {
+		    document.getElementById("resultPopup").style.display = "none";
+
+		    // ★ 新しい表向きカードをリクエスト（APIで再生成する）
+		    fetch('/api/highlow/newgame')
+		        .then(res => res.json())
+		        .then(data => {
+		            document.querySelector('.card1 span').textContent = data.faceUpCard;
+		            document.querySelector('.card2 span').textContent = "?";
+		        });
+		}
+
+	</script>
+
 </body>
 </html>

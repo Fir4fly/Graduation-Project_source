@@ -2,42 +2,54 @@
 
 package com.example.demo.controller;
 
+import jakarta.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.example.demo.model.HighLow;
 import com.example.demo.model.Medal;
+import com.example.demo.service.HighLowService;
 import com.example.demo.service.MedalService;
-import com.example.demo.service.UserService;
 
 @Controller
 public class HighLowController {
 
     @Autowired
-    private UserService userService; // Userの情報を取得するためのサービス
+    private MedalService medalService;
     
     @Autowired
-    private MedalService medalService;
+    private HighLowService highLowService;
 
     /**
      * High&Lowゲーム画面の表示
      */
     @GetMapping("/High_Low")
-    public String showHighLow(Model model) {
+    public String showHighLow(Model model, HttpSession session) {
         // ログインユーザーのIDを仮に 'testuser' に固定 (要件による)
         String loginId = "testuser"; 
 
         // データベースからユーザー情報を取得
         // 実際にはログインセッションからユーザーIDを取得することが推奨されます
         Medal medal = medalService.findByLoginId(loginId); 
+        
+     // 表向きのカードを Service で生成
+        int faceUpVal = highLowService.drawCardValue();
+        String faceUpCard = highLowService.getCardName(faceUpVal);
+        
+        session.setAttribute("faceUpCardValue", faceUpVal);
 
         // Thymeleafに渡すデータ
         model.addAttribute("user", medal);       // ユーザー情報 (mymedal表示用)
         model.addAttribute("betCount", 0);     // 初期ベット数
         
         // カードの初期表示 (ここはビジネスロジックで制御されます)
-        model.addAttribute("faceUpCard", "J");  // 仮の表向きのカード
+        model.addAttribute("faceUpCard", faceUpCard);  // 仮の表向きのカード
         model.addAttribute("faceDownCard", "?"); // 裏向きのカード
 
         return "High_Low"; // High_Low.htmlをレンダリング
@@ -48,22 +60,54 @@ public class HighLowController {
      * HIGH/LOWの選択とベット額を受け取り、ゲームを処理するAPI
      * 実際には非同期通信(Ajax/Fetch)で呼び出されます
      */
-    /*
     @PostMapping("/api/highlow/play")
-    @ResponseBody // JSONデータを返す場合は @RestController にするか @ResponseBody をつける
-    public Map<String, Object> playGame(@RequestParam("bet") int bet, 
-                                        @RequestParam("choice") String choice) {
-        // TODO:
-        // 1. 裏向きのカードを決定する
-        // 2. 勝敗を判定する (WIN/LOSE)
-        // 3. Userのmymedalを更新する
-        // 4. 結果をJSONで返す
+    @ResponseBody
+    public HighLow playGame(@RequestBody HighLow request, HttpSession session) {
+
+    	Integer faceUpCardValue = (Integer) session.getAttribute("faceUpCardValue");
+        if (faceUpCardValue == null) {
+            // 例: セッション切れなど。エラー処理を適切に行う
+            HighLow errorResult = new HighLow();
+            errorResult.setResult("ERROR");
+            errorResult.setFaceUpCard("E");
+            errorResult.setNewCard("R");
+            errorResult.setMedalChange(0);
+            return errorResult; 
+        }
         
-        // 仮のレスポンス
-        Map<String, Object> result = new HashMap<>();
-        result.put("result", "LOSE"); // or "WIN"
-        result.put("newMedalCount", 4900); // 更新後のメダル数
-        return result;
+        // ★ 本来はセッションからユーザーIDを取得
+        String loginId = "testuser";
+        Medal medal = medalService.findByLoginId(loginId);
+        int currentMedal = medal.getMyMedal();
+
+        // Service のゲーム処理を実行
+        HighLow result = highLowService.playGame(
+                request.getBetAmount(),
+                request.getChoice(),
+                currentMedal,
+                faceUpCardValue
+        );
+
+        // メダル更新
+        medal.setMyMedal(result.getNewMedal());
+        medalService.updateMedal(medal);
+
+        return result; // → JSONで返される
     }
-    */
+    
+    @GetMapping("/api/highlow/newgame")
+    @ResponseBody
+    public HighLow newGame(HttpSession session) {
+
+        int faceUpVal = highLowService.drawCardValue();
+        
+        session.setAttribute("faceUpCardValue", faceUpVal);
+
+        HighLow hl = new HighLow();
+        hl.setFaceUpCard(highLowService.getCardName(faceUpVal));
+        hl.setNewCard("?");
+
+        return hl;
+    }
+
 }

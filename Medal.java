@@ -12,7 +12,7 @@ import jakarta.persistence.Table;
 public class Medal {
 	@Id
 	@Column(name = "loginid")
-	private String loginID;
+	private String loginId;
 	
 	@Column(name = "nickname")
 	private String nickname;
@@ -35,7 +35,7 @@ public class Medal {
 	public Medal(String loginID, String nickname, Integer myMedal, Integer seasonMyMedal, Date registDate,
 			Date updatedate) {
 		super();
-		this.loginID = loginID;
+		this.loginId = loginID;
 		this.nickname = nickname;
 		this.myMedal = myMedal;
 		this.seasonMyMedal = seasonMyMedal;
@@ -44,11 +44,11 @@ public class Medal {
 	}
 
 	public String getLoginID() {
-		return loginID;
+		return loginId;
 	}
 
 	public void setLoginID(String loginID) {
-		this.loginID = loginID;
+		this.loginId = loginID;
 	}
 
 	public String getNickname() {
