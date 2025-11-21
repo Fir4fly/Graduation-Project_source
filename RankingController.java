@@ -2,7 +2,6 @@
 
 package com.example.demo.controller;
 
-import java.security.Principal;
 import java.util.List;
 
 import org.springframework.stereotype.Controller;
@@ -23,11 +22,12 @@ public class RankingController {
     }
 
     @GetMapping("/ranking")
-    public String getRanking(
-    		Principal principal,
-    		Model model) {
-        
-        String currentLoginId = principal.getName();
+    public String getRanking(Model model) {
+        // 【重要】ログインIDの取得処理を実装してください。
+        // Spring Securityなどを使用し、セッション/認証情報から取得します。
+        // デバッグ/モックアップのために、ここでは仮のIDを使用します。
+        // 例: 認証情報からログインIDを取得: String currentLoginId = auth.getName();
+        String currentLoginId = "testuser";
         
         // 1. 自分のメダル所持数を取得 (My Medals表示用)
         int myMedals = rankingService.getMyMedals(currentLoginId);
