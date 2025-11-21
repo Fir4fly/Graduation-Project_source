@@ -58,28 +58,39 @@
             font-size: 14px;
         }
 
-        /* ナビゲーション */
-        .navigation {
-            display: flex;
-            width: 100%;
-            margin-top: 10px;
+		/* メニューボタン */
+		.menu-grid {
+			display: grid;
+			grid-template-columns: 1fr 1fr; /* 2列に分割 */
+			gap: 10px; 
+			margin-top: 10px;
+			margin-bottom: 10px;
+		}
+
+		.menu-grid a {
+			text-decoration: none; 
+		}
+
+		.menu-grid button {
+			width: 100%;
+			height: 40px;
+			background-color: black;
+			color: gold;
+			border: 1px solid gold;
+			font-weight: bold;
+			cursor: pointer;
+			transition: background-color 0.3s ease, transform 0.2s ease; 
+            /* 修正点3: 枠線に丸みを持たせる */
+            border-radius: 8px; 
+		}
+        
+        .menu-grid button:hover {
+            background-color: gold; 
+            color: black; 
+            transform: translateY(-2px); 
+            box-shadow: 0 0 10px gold; 
         }
 
-        .nav-item {
-            flex-grow: 1;
-            text-align: center;
-            padding: 10px 0;
-            cursor: pointer;
-            font-size: 14px;
-            font-weight: bold;
-            border-bottom: 2px solid transparent;
-            text-transform: uppercase;
-        }
-
-        .nav-item.active {
-            background-color: rgba(255, 215, 0, 0.1);
-            border-bottom: 3px solid #FFD700;
-        }
 
         /* メダル情報 */
         .medal-info {
@@ -117,7 +128,7 @@
             padding: 0 10px;
         }
         
-        /* 🔥 ここがスクロール設定の重要な変更点です 🔥 */
+        /* ここがスクロール設定の重要な変更点です */
         .ranking-list {
             margin-top: 5px;
             border-top: 2px solid #FFD700;
@@ -126,6 +137,14 @@
             -ms-overflow-style: none; /* IEとEdgeでスクロールバーを非表示 */
             scrollbar-width: none; /* Firefoxでスクロールバーを非表示 */
         }
+		
+		/* 自分のランキング行の強調表示スタイル */
+		.ranking-list .ranking-row.is-me {
+		    background-color: rgba(255, 215, 0, 0.2); /* やや明るい背景 */
+		    border: 2px solid #FFD700; /* 太い枠線 */
+		    transform: scale(1.02); /* やや拡大 */
+		    transition: all 0.2s ease;
+		}
         
         /* Webkit系のブラウザ (Chrome, Safari) でスクロールバーを非表示にする */
         .ranking-list::-webkit-scrollbar {
@@ -203,106 +222,52 @@
         <button class="profile-btn">PROFILE</button>
     </div>
 
-    <div class="navigation">
-        <div class="nav-item active">HOME</div>
-        <div class="nav-item">GAME</div>
-        <div class="nav-item">SHOP</div>
-        <div class="nav-item">ACHIVEMENTS</div>
+    <div class="menu-grid">
+		<a th:href="@{/home}">
+			<button class="home-button">HOME</button>				
+		</a>
+		<a th:href="@{/gamelist}">
+			<button class="gamelist-button">GAME LIST</button>
+		</a>
+		<a th:href="@{/shop}">
+			<button class="shop-button">SHOP</button>				
+		</a>
+		<a th:href="@{/achievements}">
+			<button class="achievements-button">ACHIEVEMENTS</button>			
+		</a>
     </div>
 
-    <div class="medal-info">
-        <div class="medal-row">
-            <span>My Medals</span>
-            <span class="user-medals">2000 $</span>
+	<div class="medal-info">
+		<div class="medal-row">
+			<span>My Medals</span>
+			<span th:text="${#numbers.formatDecimal(myMedals, 0, 'COMMA', 0, 'POINT')} + ' $'">1000 $</span>
         </div>
-        <div class="medal-row">
-            <span>Season Medals</span>
-            <span class="user-medals">1500 $</span>
-        </div>
-    </div>
-    
+	</div>
+	    
     <div class="ranking-table">
         <div class="ranking-header">
             <span class="arrow" role="button" aria-label="Previous Ranking">◀</span>
-            <span>User Medals</span>
+            <span>メダル所持数</span>
             <span class="arrow" role="button" aria-label="Next Ranking">▶</span>
         </div>
 
         <div class="ranking-list">
-            <div class="ranking-row">
-                <div class="rank-col">1</div>
-                <div class="name-col">user1</div>
-                <div class="medals-col user-medals">1,000,000 $</div>
-            </div>
-            <div class="ranking-row">
-                <div class="rank-col">2</div>
-                <div class="name-col">user2</div>
-                <div class="medals-col user-medals">300,000 $</div>
-            </div>
-            <div class="ranking-row">
-                <div class="rank-col">3</div>
-                <div class="name-col">user3</div>
-                <div class="medals-col user-medals">100,000 $</div>
-            </div>
-            
-            <div class="ranking-row">
-                <div class="rank-col">4</div>
-                <div class="name-col">user_alpha</div>
-                <div class="medals-col user-medals">50,000 $</div>
-            </div>
-            <div class="ranking-row">
-                <div class="rank-col">5</div>
-                <div class="name-col">user_beta</div>
-                <div class="medals-col user-medals">45,000 $</div>
-            </div>
-            <div class="ranking-row">
-                <div class="rank-col">6</div>
-                <div class="name-col">user_gamma</div>
-                <div class="medals-col user-medals">38,000 $</div>
-            </div>
-            <div class="ranking-row">
-                <div class="rank-col">7</div>
-                <div class="name-col">user_delta</div>
-                <div class="medals-col user-medals">32,000 $</div>
-            </div>
-            <div class="ranking-row">
-                <div class="rank-col">8</div>
-                <div class="name-col">user_epsilon</div>
-                <div class="medals-col user-medals">25,000 $</div>
-            </div>
-            <div class="ranking-row">
-                <div class="rank-col">9</div>
-                <div class="name-col">user_zeta</div>
-                <div class="medals-col user-medals">20,000 $</div>
-            </div>
-            <div class="ranking-row">
-                <div class="rank-col">10</div>
-                <div class="name-col">user_eta</div>
-                <div class="medals-col user-medals">15,000 $</div>
-            </div>
-            <div class="ranking-row"><div class="rank-col">11</div><div class="name-col">user_t1</div><div class="medals-col user-medals">14,000 $</div></div>
-            <div class="ranking-row"><div class="rank-col">12</div><div class="name-col">user_t2</div><div class="medals-col user-medals">13,500 $</div></div>
-            <div class="ranking-row"><div class="rank-col">13</div><div class="name-col">user_t3</div><div class="medals-col user-medals">13,000 $</div></div>
-            <div class="ranking-row"><div class="rank-col">14</div><div class="name-col">user_t4</div><div class="medals-col user-medals">12,500 $</div></div>
-            <div class="ranking-row"><div class="rank-col">15</div><div class="name-col">user_t5</div><div class="medals-col user-medals">12,000 $</div></div>
-            <div class="ranking-row"><div class="rank-col">16</div><div class="name-col">user_t6</div><div class="medals-col user-medals">11,500 $</div></div>
-            <div class="ranking-row"><div class="rank-col">17</div><div class="name-col">user_t7</div><div class="medals-col user-medals">11,000 $</div></div>
-            <div class="ranking-row"><div class="rank-col">18</div><div class="name-col">user_t8</div><div class="medals-col user-medals">10,500 $</div></div>
-            <div class="ranking-row"><div class="rank-col">19</div><div class="name-col">user_t9</div><div class="medals-col user-medals">10,000 $</div></div>
-            <div class="ranking-row"><div class="rank-col">20</div><div class="name-col">user_t10</div><div class="medals-col user-medals">9,500 $</div></div>
-            <div class="ranking-row"><div class="rank-col">21</div><div class="name-col">user_t11</div><div class="medals-col user-medals">9,000 $</div></div>
-            <div class="ranking-row"><div class="rank-col">22</div><div class="name-col">user_t12</div><div class="medals-col user-medals">8,500 $</div></div>
+            <div class="ranking-row" th:each="userRank : ${rankingList}" 
+                 th:classappend="${userRank.isMe()} ? 'is-me' : ''">
+				 <div class="rank-col" th:text="${userRank.rank}">1</div>
+				 <div class="name-col" th:text="${userRank.nickname}">user1</div>
+				 <div class="medals-col user-medals" th:text="${#numbers.formatDecimal(userRank.medals, 0, 'COMMA', 0, 'POINT')} + ' $'">1,000,000 $</div>
+			</div>
         </div>
     </div>
-    
-    <div class="my-ranking">
-        <div class="ranking-row">
-            <div class="rank-col">10</div>
+	    
+    <div class="my-ranking" th:if="${myRankingInfo != null}">
+		<div class="ranking-row">
+            <div class="rank-col" th:text="${myRankingInfo.rank == 0} ? 'Out' : ${myRankingInfo.rank}">10</div>
             <div class="name-col">Me</div>
-            <div class="medals-col user-medals">2000 $</div>
+            <div class="medals-col user-medals" th:text="${#numbers.formatDecimal(myRankingInfo.medals, 0, 'COMMA', 0, 'POINT')} + ' $'">2000 $</div>
         </div>
     </div>
-    
 </div>
 
 </body>

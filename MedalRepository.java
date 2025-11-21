@@ -16,4 +16,7 @@ public interface MedalRepository extends JpaRepository<Medal, String> {
     
     // ランキング表示用にメダル数が多い順に全ユーザーのリストを取得
     List<Medal> findTop3ByOrderByMyMedalDesc(); // 所持メダル数で降順ソートし、上位3件を取得
+    
+    List<Medal> findTop50ByOrderByMyMedalDesc();
+
 }

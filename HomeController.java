@@ -52,10 +52,10 @@ public class HomeController {
 		return "shop";
 	}
 	
-	@GetMapping("/ranking")
-	public String showRanking() {
-		return "ranking";
-	}
+//	@GetMapping("/ranking")
+//	public String showRanking() {
+//		return "ranking";
+//	}
 	
 	@GetMapping("/achievements")
 	public String showAchievemets() {
