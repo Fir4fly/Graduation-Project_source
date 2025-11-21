@@ -6,7 +6,7 @@
     <style>
         /* ここに提供された画像に合わせた簡易的なスタイルを記述します */
         body {
-            background-color: #4CAF50; /* イメージ図の背景色に近い緑 */
+            background-color: rgb(57, 198, 152); /* イメージ図の背景色に近い緑 */
             display: flex;
             justify-content: center;
             align-items: center;
@@ -19,7 +19,7 @@
             padding: 30px;
             border: 5px solid #ff9800; /* オレンジ色の枠線 */
             border-radius: 10px;
-            background-color: #00bcd4; /* 内側の青緑色の背景 */
+            background-color: rgb(57, 198, 166);
             display: grid;
             grid-template-areas:
                 "home bet reset medal"
@@ -34,12 +34,15 @@
         }
         .home-btn {
             grid-area: home;
+			font-size: 20px;
             justify-self: start;
-            padding: 10px 20px;
-            background-color: #9c27b0; /* 紫色のボタン */
-            color: white;
-            border: 2px solid #ffeb3b; /* 黄色の枠線 */
+            padding: 15px 30px;
+            background-color: rgb(185, 177, 30); 
+            color: black;
+            border: 4px solid rgb(175, 98, 217);
             cursor: pointer;
+			margin-top: -30px;
+			margin-left: -30px;
         }
         .bet-count {
             grid-area: bet;
@@ -58,30 +61,34 @@
         }
         .medal-count {
             grid-area: medal;
+			background-color: white;
             padding: 10px;
-            border: 1px solid black;
+            border: 4px solid black;
             font-size: 18px;
         }
-        .card {
-            width: 90%;
-            aspect-ratio: 2 / 3;
-            border: 1px solid black;
-            background-color: white;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 1.2em;
-        }
+		.card {
+			width: 90%;
+			aspect-ratio: 2 / 3;
+			/*border: 1px solid black;
+			/*background-color: white;
+			/* 次の3行は不要または変更の可能性あり */
+			/* display: flex; */
+			/* justify-content: center; */
+			/* align-items: center; */
+			/* font-size: 1.2em; */
+			overflow: hidden; /* 画像が枠を超えるのを防ぐ */
+		}
         .card1 { grid-area: card1; }
         .card2 { grid-area: card2; }
         .high-btn, .low-btn {
             background-color: #8d3a1f; /* 赤茶色のボタン */
-            color: white;
+            color:rgb(220, 205, 20);
             font-size: 24px;
+			font-weight: bold;
             padding: 20px;
             width: 100%;
+			border: 4px solid rgb(176, 143, 55);
             cursor: pointer;
-            border: none;
         }
         .high-btn { grid-area: high; }
         .low-btn { grid-area: low; }
@@ -134,7 +141,7 @@
 </head>
 <body>
     <div class="container">
-        <form th:action="@{/home}" method="get" class="home-btn">
+        <form th:action="@{/home}" method="get">
             <button type="submit" class="home-btn">HOME</button>
         </form>
 
@@ -146,12 +153,16 @@
         <div class="medal-count">
             所持メダル数: <span th:text="${user.myMedal}" id="Mymedal">5000</span> </div>
 
-        <div class="card card1">
-            <span id="faceUpCard" th:text="${faceUpCard}">表向きのカード</span> </div>
+			<div class="card card1">
+				<img id="faceUpCardImage" th:src="@{'/images/cards/' + ${faceUpCard} + '.png'}" 
+			    	alt="表向きのカード" style="width: 100%; height: 100%; object-fit: contain;">
+			</div>
 
-        <div class="card card2">
-            <span id="faceDownCard" th:text="${faceDownCard}">裏向きのカード</span> </div>
-        
+			<div class="card card2">
+				<img id="faceDownCardImage" th:src="@{/images/cards/back.png}" 
+			    	alt="裏向きのカード" style="width: 100%; height: 100%; object-fit: contain;">
+			</div>
+			
         <button type="button" class="high-btn" onclick="placeBet('HIGH')">HIGH</button>
 
         <button type="button" class="low-btn" onclick="placeBet('LOW')">LOW</button>
@@ -185,6 +196,7 @@
 	    let currentBet = parseInt(betCountElement.textContent);
 	    let currentMedal = parseInt(myMedalElement.textContent);
 
+		/*
 		window.onload = () => {
 			document.querySelector('.card1 span').textContent =
 		    	document.getElementById("faceUpCard").textContent;
@@ -192,6 +204,15 @@
 		    document.querySelector('.card2 span').textContent =
 		        document.getElementById("faceDownCard").textContent;
 		};
+		*/
+		
+		function getCardImagePath(cardValue) {
+			        if (cardValue === '?' || !cardValue) {
+			            return '/images/cards/back.png';
+			        }
+			        // 環境に合わせてパスを調整してください (例: Thmyeleafの@{}を使わない場合は静的なパス)
+			        return `/images/cards/${cardValue}.png`;
+			    }
 			
 	    function updateBetDisplay() {
 	        betCountElement.textContent = currentBet;
@@ -243,9 +264,11 @@
 	            return res.json();
 	        })
 			.then(data => {
+				const faceDownCardImage = document.getElementById("faceDownCardImage");
 
 			    // ★ 裏向きカードをひっくり返す
-			    document.querySelector('.card2 span').textContent = data.newCard;
+			    //document.querySelector('.card2 span').textContent = data.newCard;
+				faceDownCardImage.src = `/images/cards/${data.newCard}.png`;
 
 			    // ★ 結果をポップアップに表示
 			    const popup = document.getElementById("resultPopup");
@@ -273,13 +296,17 @@
 		
 		function closePopup() {
 		    document.getElementById("resultPopup").style.display = "none";
+			const faceUpCardImage = document.getElementById("faceUpCardImage");
+			const faceDownCardImage = document.getElementById("faceDownCardImage");
 
 		    // ★ 新しい表向きカードをリクエスト（APIで再生成する）
 		    fetch('/api/highlow/newgame')
 		        .then(res => res.json())
 		        .then(data => {
-		            document.querySelector('.card1 span').textContent = data.faceUpCard;
-		            document.querySelector('.card2 span').textContent = "?";
+		            //document.querySelector('.card1 span').textContent = data.faceUpCard;
+		            //document.querySelector('.card2 span').textContent = "?";
+					faceUpCardImage.src = `/images/cards/${data.faceUpCard}.png`;
+					faceDownCardImage.src = `/images/cards/back.png`;
 		        });
 		}
 
