@@ -32,8 +32,11 @@ public class HighLowController {
     @GetMapping("/High_Low")
     public String showHighLow(Model model, HttpSession session) {
         // ログインユーザーのIDを仮に 'testuser' に固定 (要件による)
-        String loginId = "testuser"; 
+        String loginId = (String) session.getAttribute("loginID");
 
+        if (loginId == null) {
+            return "redirect:/login";
+        }
         // データベースからユーザー情報を取得
         // 実際にはログインセッションからユーザーIDを取得することが推奨されます
         Medal medal = medalService.findByLoginId(loginId); 
@@ -63,21 +66,20 @@ public class HighLowController {
     @PostMapping("/api/highlow/play")
     @ResponseBody
     public HighLow playGame(@RequestBody HighLow request, HttpSession session) {
-
-    	Integer faceUpCardValue = (Integer) session.getAttribute("faceUpCardValue");
-        if (faceUpCardValue == null) {
-            // 例: セッション切れなど。エラー処理を適切に行う
-            HighLow errorResult = new HighLow();
-            errorResult.setResult("ERROR");
-            errorResult.setFaceUpCard("E");
-            errorResult.setNewCard("R");
-            errorResult.setMedalChange(0);
-            return errorResult; 
-        }
-        
-        // ★ 本来はセッションからユーザーIDを取得
-        String loginId = "testuser";
+    		String loginId = (String) session.getAttribute("loginID");
+    		if (loginId == null) {
+    	        HighLow error = new HighLow();
+    	        error.setResult("ERROR");
+    	        error.setFaceUpCard("E");
+    	        error.setNewCard("R");
+    	        error.setMedalChange(0);
+    	        return error;
+    	    }
+    		
         Medal medal = medalService.findByLoginId(loginId);
+        
+        Integer faceUpCardValue = (Integer) session.getAttribute("faceUpCardValue");
+        
         int currentMedal = medal.getMyMedal();
 
         // Service のゲーム処理を実行
@@ -99,8 +101,16 @@ public class HighLowController {
     @ResponseBody
     public HighLow newGame(HttpSession session) {
 
-        int faceUpVal = highLowService.drawCardValue();
+    		String loginId = (String) session.getAttribute("loginID");
+
+        if (loginId == null) {
+            HighLow error = new HighLow();
+            error.setFaceUpCard("ERROR");
+            error.setNewCard("LOGIN_REQUIRED");
+            return error;
+        }
         
+        int faceUpVal = highLowService.drawCardValue();
         session.setAttribute("faceUpCardValue", faceUpVal);
 
         HighLow hl = new HighLow();
