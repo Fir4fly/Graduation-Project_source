@@ -4,6 +4,8 @@ package com.example.demo.controller;
 
 import java.util.List;
 
+import jakarta.servlet.http.HttpSession;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,19 +17,21 @@ import com.example.demo.service.RankingService;
 public class RankingController {
 
     private final RankingService rankingService;
+    private final HttpSession session;
 
     // コンストラクタインジェクション
-    public RankingController(RankingService rankingService) {
+    public RankingController(RankingService rankingService, HttpSession session) {
         this.rankingService = rankingService;
+        this.session = session;
     }
 
     @GetMapping("/ranking")
     public String getRanking(Model model) {
-        // 【重要】ログインIDの取得処理を実装してください。
-        // Spring Securityなどを使用し、セッション/認証情報から取得します。
-        // デバッグ/モックアップのために、ここでは仮のIDを使用します。
-        // 例: 認証情報からログインIDを取得: String currentLoginId = auth.getName();
-        String currentLoginId = "testuser";
+        String loginUser = (String)session.getAttribute("loginID");
+        if(loginUser == null) {
+        		return "redirect:/login";
+        }
+        String currentLoginId = loginUser;
         
         // 1. 自分のメダル所持数を取得 (My Medals表示用)
         int myMedals = rankingService.getMyMedals(currentLoginId);

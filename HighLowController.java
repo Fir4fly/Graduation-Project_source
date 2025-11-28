@@ -31,14 +31,12 @@ public class HighLowController {
      */
     @GetMapping("/High_Low")
     public String showHighLow(Model model, HttpSession session) {
-        // ログインユーザーのIDを仮に 'testuser' に固定 (要件による)
         String loginId = (String) session.getAttribute("loginID");
 
         if (loginId == null) {
             return "redirect:/login";
         }
         // データベースからユーザー情報を取得
-        // 実際にはログインセッションからユーザーIDを取得することが推奨されます
         Medal medal = medalService.findByLoginId(loginId); 
         
      // 表向きのカードを Service で生成
