@@ -2,7 +2,7 @@
 <html lang="ja" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>High & Low ゲーム</title>
+    <title>High & Low</title>
     <style>
         /* ここに提供された画像に合わせた簡易的なスタイルを記述します */
         body {
@@ -264,6 +264,15 @@
 	            return res.json();
 	        })
 			.then(data => {
+				// ★★★ 認証エラーチェック ★★★
+                if (data.result === "UNAUTHORIZED") {
+                    gameMessage.textContent = 'セッションが切れました。ログインページへ移動します。';
+                    alert("認証情報が見つかりません。再度ログインしてください。");
+                    // ログインページへリダイレクト
+                    window.location.href = "/login";
+                    return; // 以降の処理を中断
+                }
+				
 				const faceDownCardImage = document.getElementById("faceDownCardImage");
 
 			    // ★ 裏向きカードをひっくり返す
