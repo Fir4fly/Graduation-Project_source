@@ -17,10 +17,9 @@
 				padding: 20px;
 			}
 
-			.container {
+			.home-container {
 				width: 300px; /* スマートフォン程度の幅 */
 				padding: 10px;
-				text-align: center;
 			}
 
 			/* ヘッダーとタイトル */
@@ -147,9 +146,10 @@
 	</head>
 
 	<body>
-		<div class="container">
+		<div class="home-container">
 			<div class="header">
-				<button class="profile-button">PROFILE</button>
+				<div th:insert="fragments/profile :: profileModal"></div>
+				<button onclick="openProfile()" class="profile-button">PROFILE</button>
 			</div>
 			
 			<h1>Scot Medal Park</h1>

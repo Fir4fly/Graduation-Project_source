@@ -33,6 +33,8 @@ public class RankingController {
         }
         String currentLoginId = loginUser;
         
+        String nickname = (String)session.getAttribute("nickname");
+        
         // 1. 自分のメダル所持数を取得 (My Medals表示用)
         int myMedals = rankingService.getMyMedals(currentLoginId);
         
@@ -43,6 +45,7 @@ public class RankingController {
         RankingDto myRankingInfo = rankingService.getMyRankingInfo(currentLoginId, rankingList);
         
         // 4. データをModelに追加
+        model.addAttribute("nickname", nickname); // ニックネーム
         model.addAttribute("myMedals", myMedals); // My Medals
         model.addAttribute("rankingList", rankingList); // Top 50のリスト
         model.addAttribute("myRankingInfo", myRankingInfo); // 自分の順位情報 (画面下部)

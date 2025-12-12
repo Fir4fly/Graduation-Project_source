@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<!-- ヘッダー -->
+	<head>
+		<meta charset="UTF-8">
+	    <title>新規登録</title>
+		<style>
+			body{
+			    background-color: black;
+			    color: gold;
+			}
+	
+			h1{
+			    color: gold;
+			    text-shadow: 0 0 10px rgba(199, 189, 134, 0.8);
+			}
+	
+			.container{
+			    margin-top: 100px;
+			}
+	
+			.textbox{
+			    background-color: transparent;
+			    border: 2px solid gold;
+			    color: gold;
+			    padding: 10px;
+			    font-size: 16px;
+			    border-radius: 5px;
+			    width: 250px;
+			    text-align: center;
+			    outline: none;
+	
+			    margin-bottom: 20px;
+			}
+	
+			.textbox::placeholder{
+			    color: gold;
+			    opacity: 1;
+			}
+	
+			.button {
+			    background-color: transparent;
+			    border: 2px solid gold;
+			    color: gold;
+			    padding: 10px 20px;
+			    font-size: 16px;
+			    border-radius: 5px;
+			    cursor: pointer;
+			    transition: 0.3s;
+			}
+			.button:hover {
+			    background-color: gold;
+			    color: black;
+			}
+	
+			.margin {
+			    margin-top: 15px;
+			}
+			
+			.error-message {
+                color: red;
+                font-weight: bold;
+                margin-bottom: 15px;
+            }
+		</style>
+	</head>
+	
+	<!-- ボディ-->
+	 <body>
+	    <center>
+	        <div class="container">
+	            <h1>Scot Medal Park</h1>
+				<div th:if="${error}" class="error-message">
+					<p th:text="${error}"></p>
+				</div>
+	            <form th:action="@{/register}" th:method="post" th:object="${user}">
+	                <input type="text" name="loginID" class="textbox" required placeholder="ログインID" th:field="*{loginID}">
+					<br><input type="text" name="nickname" class="textbox" required placeholder="ユーザー名" th:field="*{nickname}">
+	                <br><input type="password" name="loginPass" class="textbox" required placeholder="パスワード" th:field="*{loginPass}">
+					<br><input type="password" name="confPass" class="textbox" required placeholder="確認用パスワード">
+	                <br><input type="submit" value="登録" class="button margin" >
+	            </form>
+	        </div>
+	    </center>
+	 </body>
+ </html>

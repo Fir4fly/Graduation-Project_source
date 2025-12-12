@@ -10,7 +10,6 @@
             background-color: #000;
             color: #FFD700; /* ゴールド/イエロー */
             font-family: Arial, sans-serif;
-            margin: 0;
             padding: 0;
             display: flex;
             justify-content: center;
@@ -219,7 +218,8 @@
     
     <div class="header">
         <h1>RANKING</h1>
-        <button class="profile-btn">PROFILE</button>
+		<div th:insert="fragments/profile :: profileModal"></div>
+		<button class="profile-btn" onclick="openProfile()">PROFILE</button>
     </div>
 
     <div class="menu-grid">
@@ -264,7 +264,7 @@
     <div class="my-ranking" th:if="${myRankingInfo != null}">
 		<div class="ranking-row">
             <div class="rank-col" th:text="${myRankingInfo.rank == 0} ? 'Out' : ${myRankingInfo.rank}">10</div>
-            <div class="name-col">Me</div>
+            <div class="name-col" th:text="${myRankingInfo.nickname}">Me</div>
             <div class="medals-col user-medals" th:text="${#numbers.formatDecimal(myRankingInfo.medals, 0, 'COMMA', 0, 'POINT')} + ' $'">2000 $</div>
         </div>
     </div>

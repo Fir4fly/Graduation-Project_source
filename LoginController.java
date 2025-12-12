@@ -38,4 +38,12 @@ public class LoginController {
             return "login";
         }
     }
+    
+    @PostMapping("/logout")
+    public String logout(HttpSession session) {
+        // セッションを完全に無効化し、セッションに保存されていた全ての属性を削除
+        session.invalidate(); 
+        
+        return "redirect:/login";
+    }
 }

@@ -29,4 +29,16 @@ public class UserService {
         }
         return null;
     }
+    
+    public boolean updateNickname(String loginID, String newNickname) {
+        Optional<User> userOptional = userRepository.findByLoginID(loginID);
+        if (userOptional.isPresent()) {
+            User user = userOptional.get();
+            user.setNickname(newNickname); // UserモデルにsetNicknameがあることを想定
+            userRepository.save(user); 
+            
+            return true;
+        }
+        return false;
+    }
 }

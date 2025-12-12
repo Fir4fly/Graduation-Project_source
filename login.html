@@ -1,8 +1,61 @@
 <!DOCTYPE html>
 <!-- ヘッダー -->
 <head>
+	<meta charset="UTF-8">
     <title>Login</title>
-    <link rel="stylesheet" th:href="@{/css/style.css}">
+	<style>
+		body{
+		    background-color: black;
+		    color: gold;
+		}
+
+		h1{
+		    color: gold;
+		    text-shadow: 0 0 10px rgba(199, 189, 134, 0.8);
+		}
+
+		.contaier{
+		    margin-top: 100px;
+		}
+
+		.textbox{
+		    background-color: transparent;
+		    border: 2px solid gold;
+		    color: gold;
+		    padding: 10px;
+		    font-size: 16px;
+		    border-radius: 5px;
+		    width: 250px;
+		    text-align: center;
+		    outline: none;
+
+		    margin-bottom: 20px;
+		}
+
+		.textbox::placeholder{
+		    color: gold;
+		    opacity: 1;
+		}
+
+		.button {
+		    background-color: transparent;
+		    border: 2px solid gold;
+		    color: gold;
+		    padding: 10px 20px;
+		    font-size: 16px;
+		    border-radius: 5px;
+		    cursor: pointer;
+		    transition: 0.3s;
+		}
+		.button:hover {
+		    background-color: gold;
+		    color: black;
+		}
+
+		.margin {
+		    margin-top: 15px;
+		}
+	</style>
 </head>
 
 <!-- ボディ-->
@@ -13,9 +66,11 @@
             <form action="/login" method="post">
                 <input type="text" name="loginID" class="textbox" required placeholder="ユーザー名">
                 <br><input type="password" name="loginPass" class="textbox" required placeholder="パスワード">
-                <br><input type="button" value="新規登録" class="button margin" >
                 <br><button type="submit" class="button margin" >ログイン</button>
             </form>
+			<br><a th:href="@{/register}">
+				<button class="newlogin-button">新規登録</button>
+			</a>
         </div>
     </center>
  </body>

@@ -88,7 +88,7 @@ public class RankingService {
                  Medal myMedal = myMedalOpt.get();
                  return new RankingDto(
                      0, // 順位0は「圏外」としてHTML側で表示を制御
-                     "Me", // 画面表示用に「Me」など固定のニックネームを設定（HTMLで上書き）
+                     myMedal.getNickname(),
                      myMedal.getMyMedal(), 
                      true
                  );
