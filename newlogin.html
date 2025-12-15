@@ -6,51 +6,64 @@
 	    <title>新規登録</title>
 		<style>
 			body{
-			    background-color: black;
-			    color: gold;
+				background-color: rgb(189, 244, 189);
+				color: gray;
 			}
 	
 			h1{
-			    color: gold;
-			    text-shadow: 0 0 10px rgba(199, 189, 134, 0.8);
+				color: lightblue;
+			    text-shadow: 0 0 10px rgba(0, 128, 255, 0.8);
+				font-size: 48px;
+				-webkit-text-stroke: 1.5px black;
 			}
-	
-			.container{
-			    margin-top: 100px;
+			.form{
+				display: flex;
+				flex-direction: column;
+			}
+			
+			.formtext{
+				color: black;
+				margin-right: 240px;
+				margin-bottom: 6px;
+			}
+			
+			.formtext-kakunin{
+				color: black;
+				margin-right: 195px;
+				margin-bottom: 6px;
 			}
 	
 			.textbox{
-			    background-color: transparent;
-			    border: 2px solid gold;
-			    color: gold;
+				background-color: lightblue;
+			    border: 1px solid black;
+			    color: black;
 			    padding: 10px;
 			    font-size: 16px;
 			    border-radius: 5px;
-			    width: 250px;
+			    width: 300px;
 			    text-align: center;
 			    outline: none;
-	
-			    margin-bottom: 20px;
+			    margin-bottom: 10px;
 			}
 	
-			.textbox::placeholder{
-			    color: gold;
-			    opacity: 1;
+			.button-newlogin {
+				width: 100px;
+				background-color: lightcoral;
+				color: black;
+				border: 1px solid black;
+				padding: 5px 10px;
+				margin-top: 15px;
+				font-weight: bold;
+				cursor: pointer;
+				transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+	            /* 修正点1: 枠線に丸みを持たせる */
+	            border-radius: 8px;
 			}
-	
-			.button {
-			    background-color: transparent;
-			    border: 2px solid gold;
-			    color: gold;
-			    padding: 10px 20px;
-			    font-size: 16px;
-			    border-radius: 5px;
-			    cursor: pointer;
-			    transition: 0.3s;
-			}
-			.button:hover {
-			    background-color: gold;
-			    color: black;
+			.button-newlogin:hover {
+				background-color: orangered; 
+	            color: whitesmoke; 
+	            transform: translateY(-2px); 
+	            box-shadow: 0 0 10px orangered;
 			}
 	
 			.margin {
@@ -74,11 +87,18 @@
 					<p th:text="${error}"></p>
 				</div>
 	            <form th:action="@{/register}" th:method="post" th:object="${user}">
-	                <input type="text" name="loginID" class="textbox" required placeholder="ログインID" th:field="*{loginID}">
-					<br><input type="text" name="nickname" class="textbox" required placeholder="ユーザー名" th:field="*{nickname}">
-	                <br><input type="password" name="loginPass" class="textbox" required placeholder="パスワード" th:field="*{loginPass}">
-					<br><input type="password" name="confPass" class="textbox" required placeholder="確認用パスワード">
-	                <br><input type="submit" value="登録" class="button margin" >
+					<p class="formtext">ログインID</p>
+	                <input type="text" name="loginID" class="textbox" required placeholder="" th:field="*{loginID}">
+					
+					<p class="formtext">ユーザー名</p>
+					<input type="text" name="nickname" class="textbox" required placeholder="" th:field="*{nickname}">
+					
+					<p class="formtext">パスワード</p>
+	                <input type="password" name="loginPass" class="textbox" required placeholder="" th:field="*{loginPass}">
+					
+					<p class="formtext-kakunin">確認用パスワード</p>
+					<input type="password" name="confPass" class="textbox" required placeholder="">
+	                <br><input type="submit" value="登録" class="button-newlogin" >
 	            </form>
 	        </div>
 	    </center>

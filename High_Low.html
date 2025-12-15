@@ -6,7 +6,7 @@
     <style>
         /* ここに提供された画像に合わせた簡易的なスタイルを記述します */
         body {
-            background-color: rgb(57, 198, 152); /* イメージ図の背景色に近い緑 */
+            background-color: rgb(189, 244, 189); /* イメージ図の背景色に近い緑 */
             display: flex;
             justify-content: center;
             align-items: center;
@@ -37,13 +37,18 @@
 			font-size: 20px;
             justify-self: start;
             padding: 15px 30px;
-            background-color: rgb(185, 177, 30); 
+            background-color: lightblue; 
             color: black;
-            border: 4px solid rgb(175, 98, 217);
+            border: 1px solid black;
             cursor: pointer;
 			margin-top: -30px;
 			margin-left: -30px;
         }
+		.home-btn:hover{
+			background-color: rgb(0, 128, 255); 
+            color: whitesmoke; 
+            box-shadow: 0 0 10px rgb(0, 128, 255); 
+		}
         .bet-count {
             grid-area: bet;
             background-color: black;
@@ -69,38 +74,49 @@
 		.card {
 			width: 90%;
 			aspect-ratio: 2 / 3;
-			/*border: 1px solid black;
-			/*background-color: white;
-			/* 次の3行は不要または変更の可能性あり */
-			/* display: flex; */
-			/* justify-content: center; */
-			/* align-items: center; */
-			/* font-size: 1.2em; */
 			overflow: hidden; /* 画像が枠を超えるのを防ぐ */
 		}
         .card1 { grid-area: card1; }
         .card2 { grid-area: card2; }
         .high-btn, .low-btn {
-            background-color: #8d3a1f; /* 赤茶色のボタン */
-            color:rgb(220, 205, 20);
+            background-color: lightblue;
+            color:black;
             font-size: 24px;
 			font-weight: bold;
             padding: 20px;
             width: 100%;
-			border: 4px solid rgb(176, 143, 55);
+			border: 3px solid royalblue;
             cursor: pointer;
         }
         .high-btn { grid-area: high; }
         .low-btn { grid-area: low; }
+		.high-btn:hover{
+			background-color: rgb(0, 128, 255); 
+            color: whitesmoke; 
+            box-shadow: 0 0 10px rgb(0, 128, 255); 
+		}
+		.low-btn:hover{
+			background-color: rgb(0, 128, 255); 
+            color: whitesmoke; 
+            box-shadow: 0 0 10px rgb(0, 128, 255); 
+		}
+		
         .bet-btn {
-            background-color: #8d3a1f;
-            color: white;
+            background-color: lightblue;
+            color: black;
+			text-align: center;
             font-size: 18px;
+			font-weight: bold;
             padding: 15px 30px;
             width: 100%;
             cursor: pointer;
             border: none;
         }
+		.bet-btn:hover{
+			background-color: rgb(0, 128, 255); 
+            color: whitesmoke; 
+            box-shadow: 0 0 10px rgb(0, 128, 255); 
+		}
         .bet1-btn { grid-area: bet1; }
         .bet5-btn { grid-area: bet5; }
         .bet10-btn { grid-area: bet10; }
