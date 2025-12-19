@@ -7,9 +7,9 @@
 		<style>
 			/* 全体の背景とフォント設定 */
 			body {
-				background-color: rgb(189, 244, 189);
-				color: gray;
-				font-family: Arial, sans-serif;
+				background-color: #c9f2b3;
+				color: #b8f3f6;
+				font-family: Arial, Helvetica, sans-serif;
 				margin: 0;
 				display: flex;
 				justify-content: center;
@@ -30,15 +30,15 @@
 			}
 
 			.profile-button {
-				background-color: lightblue;
+				background-color: #b8f3f6;
 				color: black;
-				border: 1px solid black;
+				border: 2px solid black;
 				padding: 5px 10px;
 				font-weight: bold;
 				cursor: pointer;
 				transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
                 /* 修正点1: 枠線に丸みを持たせる */
-                border-radius: 8px; 
+                border-radius: 20px; 
 			}
             
             .profile-button:hover {
@@ -49,7 +49,7 @@
             }
 			
 			h1 {
-				color: lightblue;
+				color: #b8f3f6;
 				text-align: center;
                 /* 修正点2: フォントサイズを大きくする */
 				font-size: 48px; 
@@ -72,14 +72,14 @@
 			.menu-grid button {
 				width: 100%;
 				height: 40px;
-				background-color: lightblue;
+				background-color: #b8f3f6;
 				color: black;
-				border: 1px solid black;
+				border: 2px solid black;
 				font-weight: bold;
 				cursor: pointer;
 				transition: background-color 0.3s ease, transform 0.2s ease; 
                 /* 修正点3: 枠線に丸みを持たせる */
-                border-radius: 8px; 
+                border-radius: 20px; 
 			}
             
             .menu-grid button:hover {
@@ -92,7 +92,7 @@
 
 			/* ランキングセクション */
 			.ranking-title {
-				color: lightblue;
+				color: #b8f3f6;
 				text-align: center;
 				font-size: 30px;
 				margin-top: 20px;
@@ -102,7 +102,7 @@
 			}
             
 			.ranking-section{
-				background-color: lightblue;
+				background-color: #b8f3f6;
 				border: 1px solid black;
 				border-radius: 8px;
 			}
@@ -126,12 +126,12 @@
                 /*  テーブル全体に丸みを持たせる (角の調整) */
                 border-radius: 8px; 
                 overflow: hidden; /* 角を丸くするために必要 */
-                border: 1px solid lightgreen; /* テーブル全体の外枠を追加 */
+                border: 1px solid black; /* テーブル全体の外枠を追加 */
 			}
 
             /* テーブルの内部のボーダーを削除し、外枠の丸みを生かす */
 			.ranking-table tr {
-				border-bottom: 1px solid lightgreen;
+				border-bottom: 1px solid black;
 			}
             
             .ranking-table tr:last-child {
