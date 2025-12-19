@@ -2,15 +2,22 @@
 
 package com.example.demo.service;
 
+import java.util.Date;
 import java.util.Random;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.model.HighLow;
+import com.example.demo.model.HighLowStats;
+import com.example.demo.repository.HighLowStatsRepository;
 
 @Service
 public class HighLowService {
 
+	@Autowired
+	private HighLowStatsRepository statsRepository;
+	
     private final Random random = new Random();
 
     /**
@@ -100,5 +107,31 @@ public class HighLowService {
         gameResult.setNewMedal(updatedMedal);
 
         return gameResult;
+    }
+    
+    public void updateGameStats(String loginId,int betAmount, String result) {
+    	HighLowStats stats = statsRepository.findById(loginId).orElseGet(() -> {
+            HighLowStats newStats = new HighLowStats();
+            newStats.setLoginId(loginId);
+            
+            newStats.setRegistDate(new Date());
+            
+            newStats.setHlBetMedal(0);
+            newStats.setHlPlayCount(0);
+            newStats.setHlGetMedal(0);
+            return newStats;
+        });
+    	
+    	stats.setHlPlayCount(stats.getHlPlayCount() + 1);
+    	
+    	stats.setHlBetMedal(stats.getHlBetMedal() + betAmount);
+    	
+    	if("WIN".equals(result)) {
+    		stats.setHlGetMedal(stats.getHlGetMedal() + (betAmount * 2));
+    	}
+    	
+    	stats.setUpdateDate(new Date());
+    	
+    	statsRepository.save(stats);
     }
 }

@@ -25,14 +25,14 @@
       	font-weight: bold;
 		-webkit-text-stroke: 1px black;
     }
-    .profile-btn {
+    .profile-button {
       padding: 6px 16px;
       border-radius: 20px;
       border: 2px solid #000;
       background: #b8f3f6;
       cursor: pointer;
     }
-	.profile-btn:hover {
+	.profile-button:hover {
 		background-color: rgb(0, 128, 255); 
         color: whitesmoke; 
         transform: translateY(-2px); 
@@ -129,14 +129,23 @@
   <div class="container">
     <div class="header">
       <div class="title">ACHIEVEMENTS</div>
-      <button class="profile-btn">PROFILE</button>
+	  <div th:insert="fragments/profile :: profileModal"></div>
+	  <button onclick="openProfile()" class="profile-button">PROFILE</button>
     </div>
 
     <div class="nav">
-      <button>HOME</button>
-      <button>GAME LIST</button>
-      <button>SHOP</button>
-      <button>RANKING</button>
+	  <a th:href="@{/home}">
+			<button>HOME</button>
+	  </a>
+	  <a th:href="@{/gamelist}">
+      		<button>GAME LIST</button>
+	  </a>
+	  <a th:href="@{/shop}">
+      		<button>SHOP</button>
+	  </a>
+	  <a th:href="@{/ranking}">
+      		<button>RANKING</button>
+	  </a>
     </div>
 
     <div class="main">

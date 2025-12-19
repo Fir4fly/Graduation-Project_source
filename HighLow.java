@@ -6,7 +6,7 @@ package com.example.demo.model;
  */
 public class HighLow {
 
-    private int betAmount;    // 現在のベット数 (HLBetMedal)
+    private int betAmount;    // 現在のベット数
     private String faceUpCard; // 表向きのカード (例: "A", "2", "K")
     private String newCard; // 裏向きのカード (未めくり時は"?"、めくり後は値)
     private String choice; //プレイヤーが選択したもの
