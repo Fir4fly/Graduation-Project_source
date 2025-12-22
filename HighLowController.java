@@ -109,39 +109,6 @@ public class HighLowController {
 
         return result; 
     }
-//    public HighLow playGame(@RequestBody HighLow request, HttpSession session) {
-//    		String loginId = (String) session.getAttribute("loginID");
-//    		if (loginId == null) {
-//    	        HighLow error = new HighLow();
-//    	        error.setResult("ERROR");
-//    	        error.setFaceUpCard("E");
-//    	        error.setNewCard("R");
-//    	        error.setMedalChange(0);
-//    	        return error;
-//    	    }
-//    		
-//        Medal medal = medalService.findByLoginId(loginId);
-//        
-//        Integer faceUpCardValue = (Integer) session.getAttribute("faceUpCardValue");
-//        
-//        int currentMedal = medal.getMyMedal();
-//
-//        // Service のゲーム処理を実行
-//        HighLow result = highLowService.playGame(
-//                request.getBetAmount(),
-//                request.getChoice(),
-//                currentMedal,
-//                faceUpCardValue
-//        );
-//
-//        // メダル更新
-//        medal.setMyMedal(result.getNewMedal());
-//        medalService.updateMedal(medal);
-//        
-//        highLowService.updateGameStats(loginId, request.getBetAmount(), result.getResult());
-//
-//        return result; // → JSONで返される
-//    }
     
     @GetMapping("/api/highlow/newgame")
     @ResponseBody

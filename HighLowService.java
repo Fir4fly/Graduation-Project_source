@@ -113,9 +113,7 @@ public class HighLowService {
     	HighLowStats stats = statsRepository.findById(loginId).orElseGet(() -> {
             HighLowStats newStats = new HighLowStats();
             newStats.setLoginId(loginId);
-            
             newStats.setRegistDate(new Date());
-            
             newStats.setHlBetMedal(0);
             newStats.setHlPlayCount(0);
             newStats.setHlGetMedal(0);

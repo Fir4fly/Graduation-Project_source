@@ -20,11 +20,7 @@ public class HomeController {
 	private MedalService medalService;
 	
 	@RequestMapping("/home")
-	public String showHomePage(
-			//@RequestParam(name = "loginID") String loginID,
-			//@RequestParam(name = "nickname") String nickname,
-			Model model,
-			HttpSession session
+	public String showHomePage(Model model,HttpSession session
 		){
 		String loginID = (String)session.getAttribute("loginID");
 		String nickname = (String)session.getAttribute("nickname");
@@ -34,9 +30,7 @@ public class HomeController {
 		List<Medal> topRanking = medalService.getTopRanking();
 	
 		model.addAttribute("nickname", nickname);
-		
 		model.addAttribute("myMedals", myMedalOptional.map(Medal::getMyMedal).orElse(0));
-		
 		model.addAttribute("rankingList", topRanking);
 		
 		return "home";
@@ -57,8 +51,8 @@ public class HomeController {
 //		return "ranking";
 //	}
 	
-	@GetMapping("/achievements")
-	public String showAchievemets() {
-		return "achievements";
-	}
+//	@GetMapping("/achievements")
+//	public String showAchievemets() {
+//		return "achievements";
+//	}
 }
