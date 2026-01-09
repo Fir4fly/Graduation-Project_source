@@ -109,6 +109,8 @@ public class HighLowService {
         return gameResult;
     }
     
+//    High&Lowの「プレイ数」、「メダル獲得数」「消費数」
+//    これらをデータベースに記録する処理
     public void updateGameStats(String loginId,int betAmount, String result) {
     	HighLowStats stats = statsRepository.findById(loginId).orElseGet(() -> {
             HighLowStats newStats = new HighLowStats();

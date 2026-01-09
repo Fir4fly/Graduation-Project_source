@@ -56,7 +56,6 @@ public class HighLowController {
         return "High_Low"; // High_Low.htmlをレンダリング
     }
 
-    // --- ゲームプレイ用のエンドポイントの例 (後で実装が必要) ---
     /**
      * HIGH/LOWの選択とベット額を受け取り、ゲームを処理するAPI
      * 実際には非同期通信(Ajax/Fetch)で呼び出されます

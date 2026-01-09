@@ -1,0 +1,56 @@
+plugins {
+    // 必須: Spring Bootのプラグイン
+    id 'org.springframework.boot' version '3.5.6' // バージョンは環境による
+    id 'io.spring.dependency-management' version '1.1.7' // バージョンは環境による
+    
+    // Java言語を使用するためのプラグイン
+    id 'java'
+}
+
+group = 'com.example'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '17' // Javaのバージョンは環境による (例: 17, 21)
+
+// 依存関係を取得するリポジトリ（格納場所）
+repositories {
+    mavenCentral()
+}
+
+// ==================================
+// 依存関係の定義 (Dependencies)
+// ==================================
+dependencies {
+    // 【1. Webアプリケーションの実行に必要な依存関係】
+    // Spring Boot Webスターター（Tomcat、Spring MVCなどを含む）
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    
+    // 【2. テンプレートエンジン（エラーの原因の可能性大）】
+    // ★★★ 必須: Thymeleafスターター ★★★
+    // この行がないと、Whitelabel Error Pageが発生します
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+
+	// implementation 'org.springframework.boot:spring-boot-starter-security'
+    // 【3. DB連携（JPA）に必要な依存関係】
+    // Spring Data JPAスターター（Hibernateなどを含む）
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    
+    // 【4. DBドライバー】
+    // PostgreSQL JDBCドライバー
+    runtimeOnly 'org.postgresql:postgresql'
+    
+    // 【5. 開発時の便利ツール】
+    // ファイル構成画像にあったdevtools（自動再起動機能）
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
+
+    // 【6. テスト実行に必要な依存関係】
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    
+    // 【8. Lombok（コード生成ツール）】
+    compileOnly 'org.projectlombok:lombok:1.18.30'
+    annotationProcessor 'org.projectlombok:lombok:1.18.30'
+}
+
+// Javaコンパイル時の設定
+tasks.named('test') {
+    useJUnitPlatform()
+}
