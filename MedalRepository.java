@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.example.demo.model.Medal;
@@ -18,5 +20,8 @@ public interface MedalRepository extends JpaRepository<Medal, String> {
     List<Medal> findTop3ByOrderByMyMedalDesc(); // 所持メダル数で降順ソートし、上位3件を取得
     
     List<Medal> findTop50ByOrderByMyMedalDesc();
+    
+    @Query("SELECT COUNT(m) + 1 FROM Medal m WHERE m.myMedal > (SELECT m2.myMedal FROM Medal m2 WHERE m2.loginId = :loginId)")
+    int findRankByLoginId(@Param("loginId") String loginId);
 
 }

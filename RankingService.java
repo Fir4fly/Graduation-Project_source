@@ -86,8 +86,11 @@ public class RankingService {
             Optional<Medal> myMedalOpt = medalRepository.findByLoginId(currentLoginId);
             if (myMedalOpt.isPresent()) {
                  Medal myMedal = myMedalOpt.get();
+                 
+                 int actualRank = medalRepository.findRankByLoginId(currentLoginId);
+                 
                  return new RankingDto(
-                     0, // 順位0は「圏外」としてHTML側で表示を制御
+                     actualRank,
                      myMedal.getNickname(),
                      myMedal.getMyMedal(), 
                      true

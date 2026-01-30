@@ -207,7 +207,6 @@
             margin-top: 10px; /* スクロール領域との間隔を調整 */
             border: 2px solid royalblue;
             font-size: 18px;
-            font-weight: bold;
         }
         
         .my-ranking .ranking-row {
@@ -251,6 +250,14 @@
 			<span th:text="${#numbers.formatDecimal(myMedals, 0, 'COMMA', 0, 'POINT')} + ' $'">1000 $</span>
         </div>
 	</div>
+	
+	<div class="my-ranking" th:if="${myRankingInfo != null}">
+		<div class="ranking-row">
+            <div class="rank-col" th:text="${myRankingInfo.rank}">10</div>
+            <div class="name-col" th:text="${myRankingInfo.nickname}">Me</div>
+            <div class="medals-col user-medals" th:text="${#numbers.formatDecimal(myRankingInfo.medals, 0, 'COMMA', 0, 'POINT')} + ' $'">2000 $</div>
+        </div>
+    </div>
 	    
     <div class="ranking-table">
         <div class="ranking-header">
@@ -266,14 +273,6 @@
 				 <div class="name-col" th:text="${userRank.nickname}">user1</div>
 				 <div class="medals-col user-medals" th:text="${#numbers.formatDecimal(userRank.medals, 0, 'COMMA', 0, 'POINT')} + ' 枚'"></div>
 			</div>
-        </div>
-    </div>
-	    
-    <div class="my-ranking" th:if="${myRankingInfo != null}">
-		<div class="ranking-row">
-            <div class="rank-col" th:text="${myRankingInfo.rank == 0} ? 'Out' : ${myRankingInfo.rank}">10</div>
-            <div class="name-col" th:text="${myRankingInfo.nickname}">Me</div>
-            <div class="medals-col user-medals" th:text="${#numbers.formatDecimal(myRankingInfo.medals, 0, 'COMMA', 0, 'POINT')} + ' $'">2000 $</div>
         </div>
     </div>
 </div>
