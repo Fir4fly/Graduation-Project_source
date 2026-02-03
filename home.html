@@ -5,151 +5,141 @@
 		<title>Home</title>
 		
 		<style>
-			/* 全体の背景とフォント設定 */
+			/* --- 全体設定 --- */
 			body {
-				background-color: #c9f2b3;
-				color: #b8f3f6;
-				font-family: Arial, Helvetica, sans-serif;
-				margin: 0;
-				display: flex;
-				justify-content: center;
-				align-items: flex-start;
-				padding: 20px;
+			    background-color: #c9f2b3;
+			    color: #b8f3f6;
+			    font-family: Arial, Helvetica, sans-serif;
+			    margin: 0;
+			    display: flex;
+			    justify-content: center;
+			    align-items: flex-start;
+			    padding: 20px;
 			}
 
 			.home-container {
-				width: 300px; /* スマートフォン程度の幅 */
-				padding: 10px;
+			    width: 100%;
+			    /* 修正: スマホでは300px程度、PCでは最大600pxまで広がるように設定 */
+			    max-width: 600px; 
+			    padding: 10px;
 			}
 
-			/* ヘッダーとタイトル */
+			/* ヘッダー・タイトル */
 			.header {
-				display: flex;
-				justify-content: flex-end;
-				margin-bottom: 20px;
+			    display: flex;
+			    justify-content: flex-end;
+			    margin-bottom: 20px;
 			}
 
 			.profile-button {
-				background-color: #b8f3f6;
-				color: black;
-				border: 2px solid black;
-				padding: 5px 10px;
-				font-weight: bold;
-				cursor: pointer;
-				transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
-                /* 修正点1: 枠線に丸みを持たせる */
-                border-radius: 20px; 
+			    background-color: #b8f3f6;
+			    color: black;
+			    border: 2px solid black;
+			    padding: 5px 15px;
+			    font-weight: bold;
+			    cursor: pointer;
+			    border-radius: 20px;
+			    transition: all 0.3s ease;
 			}
-            
-            .profile-button:hover {
-				background-color: rgb(0, 128, 255); 
-                color: whitesmoke; 
-                transform: translateY(-2px); 
-                box-shadow: 0 0 10px rgb(0, 128, 255); 
-            }
-			
+
+			.profile-button:hover {
+			    background-color: rgb(0, 128, 255); 
+			    color: whitesmoke; 
+			    box-shadow: 0 0 10px rgb(0, 128, 255); 
+			}
+
 			h1 {
-				color: #b8f3f6;
-				text-align: center;
-                /* 修正点2: フォントサイズを大きくする */
-				font-size: 48px; 
-				margin-bottom: 20px;
-				-webkit-text-stroke: 1.5px black;
+			    color: #b8f3f6;
+			    text-align: center;
+			    font-size: clamp(40px, 8vw, 64px); /* 画面幅に応じてフォントサイズが可変 */
+			    margin-bottom: 20px;
+			    -webkit-text-stroke: 1.5px black;
 			}
 
-			/* メニューボタン */
+			/* メニューボタン（常に2列で、画面が広いとボタンも横に伸びる） */
 			.menu-grid {
-				display: grid;
-				grid-template-columns: 1fr 1fr; /* 2列に分割 */
-				gap: 10px; 
-				margin-bottom: 30px;
-			}
-
-			.menu-grid a {
-				text-decoration: none; 
+			    display: grid;
+			    grid-template-columns: 1fr 1fr;
+			    gap: 15px; 
+			    margin-bottom: 30px;
 			}
 
 			.menu-grid button {
-				width: 100%;
-				height: 40px;
-				background-color: #b8f3f6;
-				color: black;
-				border: 2px solid black;
-				font-weight: bold;
-				cursor: pointer;
-				transition: background-color 0.3s ease, transform 0.2s ease; 
-                /* 修正点3: 枠線に丸みを持たせる */
-                border-radius: 20px; 
+			    width: 100%;
+			    height: 50px; /* PCでも操作しやすい高さ */
+			    background-color: #b8f3f6;
+			    color: black;
+			    border: 2px solid black;
+			    font-weight: bold;
+			    cursor: pointer;
+			    border-radius: 25px;
+			    transition: all 0.3s ease;
 			}
-            
-            .menu-grid button:hover {
-                background-color: rgb(0, 128, 255); 
-                color: whitesmoke; 
-                transform: translateY(-2px); 
-                box-shadow: 0 0 10px rgb(0, 128, 255); 
-            }
 
+			.menu-grid button:hover {
+			    background-color: rgb(0, 128, 255); 
+			    color: whitesmoke; 
+			    transform: scale(1.02); /* 軽く浮かび上がる演出 */
+			}
 
 			/* ランキングセクション */
 			.ranking-title {
-				color: #b8f3f6;
-				text-align: center;
-				font-size: 30px;
-				margin-top: 20px;
-				margin-bottom: 10px;
-				padding-bottom: 5px;
-				-webkit-text-stroke: 1px black;
-			}
-            
-			.ranking-section{
-				background-color: #b8f3f6;
-				border: 1px solid black;
-				border-radius: 8px;
-			}
-            /* My Medals行のデザイン */
-			.my-medals {
-				display: flex;
-				justify-content: space-between; 
-				background-color: #333; 
-				color: white; 
-				padding: 8px 10px;
-				margin-bottom: 5px; 
-                /* 修正点4: 枠線に丸みを持たせる */
-                border-radius: 8px; 
-			}
-			
-			/* ランキングテーブル */
-			.ranking-table {
-				width: 100%;
-				border-collapse: collapse; 
-				color: black;
-                /*  テーブル全体に丸みを持たせる (角の調整) */
-                border-radius: 8px; 
-                overflow: hidden; /* 角を丸くするために必要 */
-                border: 1px solid black; /* テーブル全体の外枠を追加 */
+			    color: #b8f3f6;
+			    text-align: center;
+			    font-size: 32px;
+			    margin-top: 20px;
+			    margin-bottom: 10px;
+			    -webkit-text-stroke: 1px black;
 			}
 
-            /* テーブルの内部のボーダーを削除し、外枠の丸みを生かす */
-			.ranking-table tr {
-				border-bottom: 1px solid black;
+			.ranking-section {
+			    background-color: #b8f3f6;
+			    border: 2px solid black; /* 少し太くして存在感を出す */
+			    border-radius: 12px;
+			    overflow: hidden;
+			    width: 100%;
 			}
-            
-            .ranking-table tr:last-child {
-                border-bottom: none; 
-            }
+
+			.my-medals {
+			    display: flex;
+			    justify-content: space-between; 
+			    background-color: #333; 
+			    color: white; 
+			    padding: 12px 20px;
+			}
+
+			.ranking-table {
+			    width: 100%;
+			    border-collapse: collapse; 
+			    color: black;
+			}
+
+			.ranking-table tr {
+			    border-bottom: 1px solid black;
+			}
+
+			.ranking-table tr:last-child {
+			    border-bottom: none;
+			}
 
 			.ranking-table td {
-				padding: 8px 5px;
+			    padding: 12px 15px;
 			}
 
-			/* 順位とメダル数の幅調整 */
-			.ranking-table tr td:nth-child(1) { 
-				width: 10%;
-				text-align: left;
-			}
-			.ranking-table tr td:nth-child(3) { 
-				width: 30%;
-				text-align: right;
+			/* 順位とメダルの幅を固定せず、PCでも見やすく調整 */
+			.ranking-table tr td:nth-child(1) { width: 15%; text-align: center; }
+			.ranking-table tr td:nth-child(2) { width: 55%; text-align: left; font-weight: bold; }
+			.ranking-table tr td:nth-child(3) { width: 30%; text-align: right; }
+
+			/* --- PC用の微調整 (画面幅が600px以上の場合) --- */
+			@media (min-width: 600px) {
+			    .home-container {
+			        padding: 40px; /* 余白を増やしてリッチに */
+			    }
+			    
+			    .menu-grid {
+			        gap: 20px; /* ボタン同士の隙間を広げる */
+			    }
 			}
 		</style>
 	</head>
@@ -163,37 +153,41 @@
 			
 			<h1>Scot Medal Park</h1>
 			
-			<div class="menu-grid">
-				<a th:href="@{/gamelist}">
-					<button class="gamelist-button">GAME LIST</button>
-				</a>
-				<a th:href="@{/shop}">
-					<button class="shop-button">SHOP</button>				
-				</a>
-				<a th:href="@{/ranking}">
-					<button class="ranking-button">RANKING</button>				
-				</a>
-				<a th:href="@{/achievements}">
-					<button class="achievements-button">ACHIEVEMENTS</button>			
-				</a>
-			</div>
-			
-			<h3 class="ranking-title" style="text-align: center; border-bottom: none;">RANKING</h3>
-			<div class="ranking-section">				
-				<div class="my-medals">
-					<span>My Medals</span>
-					<span th:text="${#numbers.formatDecimal(myMedals, 0, 'COMMA', 0, 'POINT')} + ' 枚'">1000 $</span>
+			<div class="main-content">
+				<div class="menu-grid">
+					<a th:href="@{/gamelist}">
+						<button class="gamelist-button">GAME LIST</button>
+					</a>
+					<a th:href="@{/shop}">
+						<button class="shop-button">SHOP</button>				
+					</a>
+					<a th:href="@{/ranking}">
+						<button class="ranking-button">RANKING</button>				
+					</a>
+					<a th:href="@{/achievements}">
+						<button class="achievements-button">ACHIEVEMENTS</button>			
+					</a>
 				</div>
-					
-				<table class="ranking-table">
-					<tbody> 
-						<tr th:each="rankUser, stat : ${rankingList}">
-							<td th:text="${stat.count}">1</td>
-							<td th:text="${rankUser.nickname}">user1</td>
-							<td th:text="${#numbers.formatDecimal(rankUser.myMedal, 0, 'COMMA', 0, 'POINT')} + ' 枚'">5000 $</td>
-						</tr>
-					</tbody>
-				</table>
+				
+				<div class="ranking-container">
+					<h3 class="ranking-title" style="text-align: center; border-bottom: none;">RANKING</h3>
+					<div class="ranking-section">				
+						<div class="my-medals">
+							<span>My Medals</span>
+							<span th:text="${#numbers.formatDecimal(myMedals, 0, 'COMMA', 0, 'POINT')} + ' 枚'">1000 $</span>
+						</div>
+							
+						<table class="ranking-table">
+							<tbody> 
+								<tr th:each="rankUser, stat : ${rankingList}">
+									<td th:text="${stat.count}">1</td>
+									<td th:text="${rankUser.nickname}">user1</td>
+									<td th:text="${#numbers.formatDecimal(rankUser.myMedal, 0, 'COMMA', 0, 'POINT')} + ' 枚'">5000 $</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
 			</div>
 		</div>
 	</body>

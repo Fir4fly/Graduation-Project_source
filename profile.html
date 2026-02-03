@@ -44,7 +44,7 @@
 
             <div>
                 <p>ユーザー名:<span th:text="${nickname}"></span></p>
-                <p>メダル:<span th:text="${myMedals}"></span></p>
+                <p>メダル:<span id="profileMedal" th:text="${myMedals}"></span></p>
             </div>
 			
 			<form th:action="@{/logout}" method="post" style="margin-top: 20px;">
@@ -75,12 +75,25 @@
     </div>
 
     <script>
-        function openProfile() {
-            document.getElementById('profileModal').style.display = 'block';
-        }
+		function formatNumber(num) {
+	        return Number(num).toLocaleString();
+	    }
 
-        function closeProfile() {
-            document.getElementById('profileModal').style.display = 'none';
-        }
+	    function openProfile() {
+	        const medalElement = document.getElementById('profileMedal');
+
+	        if (medalElement) {
+	            const medal = parseInt(
+	                medalElement.textContent.replace(/,/g, '')
+	            );
+	            medalElement.textContent = formatNumber(medal);
+	        }
+
+	        document.getElementById('profileModal').style.display = 'block';
+	    }
+
+	    function closeProfile() {
+	        document.getElementById('profileModal').style.display = 'none';
+	    }
     </script>
 </div>

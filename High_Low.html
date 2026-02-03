@@ -205,22 +205,19 @@
     </div>
 
 	<script>
+		function formatNumber(num) {
+	        return Number(num).toLocaleString();
+	    }
 	    const betCountElement = document.getElementById('HLBetMedal');
 	    const myMedalElement = document.getElementById('Mymedal');
 	    const gameMessage = document.getElementById('game-message');
 
-	    let currentBet = parseInt(betCountElement.textContent);
-	    let currentMedal = parseInt(myMedalElement.textContent);
+		//カンマ表示
+		let currentBet = parseInt(betCountElement.textContent.replace(/,/g, ''));
+		let currentMedal = parseInt(myMedalElement.textContent.replace(/,/g, ''));
 
-		/*
-		window.onload = () => {
-			document.querySelector('.card1 span').textContent =
-		    	document.getElementById("faceUpCard").textContent;
-
-		    document.querySelector('.card2 span').textContent =
-		        document.getElementById("faceDownCard").textContent;
-		};
-		*/
+		betCountElement.textContent = formatNumber(currentBet);
+		myMedalElement.textContent = formatNumber(currentMedal);
 		
 		function getCardImagePath(cardValue) {
 			        if (cardValue === '?' || !cardValue) {
@@ -230,11 +227,11 @@
 			    }
 			
 	    function updateBetDisplay() {
-	        betCountElement.textContent = currentBet;
+			betCountElement.textContent = formatNumber(currentBet);
 	    }
 
 	    function addBet(amount) {
-	        currentMedal = parseInt(myMedalElement.textContent); // 最新のメダル数
+			currentMedal = parseInt(myMedalElement.textContent.replace(/,/g, ''));// 最新のメダル数
 	        if (currentBet + amount > 999) {
 	            gameMessage.textContent = 'ベットは999枚までです。';
 	            return;
@@ -306,7 +303,7 @@
 
 			    popup.style.display = "block";
 
-			    myMedalElement.textContent = data.newMedal;
+				myMedalElement.textContent = formatNumber(currentMedal);
 
 			    currentBet = 0;
 			    updateBetDisplay();

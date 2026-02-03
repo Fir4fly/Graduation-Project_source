@@ -5,218 +5,192 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ranking</title>
     <style>
-        /* 全体のスタイル設定 */
-        body {
-            background-color: #c9f2b3;
-            color: whitesmoke;
-            font-family: Arial, Helvetica, sans-serif;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: flex-start;
-            min-height: 100vh;
-        }
+		/* --- 全体設定 --- */
+		body {
+		    background-color: #c9f2b3;
+		    color: whitesmoke;
+		    font-family: Arial, Helvetica, sans-serif;
+		    padding: 0;
+		    display: flex;
+		    justify-content: center;
+		    align-items: flex-start;
+		    min-height: 100vh;
+		}
 
-        /* コンテナ (画面全体) */
-        .ranking-container {
-            width: 375px; /* スマートフォン画面を想定した幅 */
-            max-width: 100%;
-            background-color: lightgreen;
-            border: 2px solid rgb(0, 128, 255);
-            box-shadow: 0 0 10px rgba(0, 128, 255, 0.5);
-            padding: 10px;
-            box-sizing: border-box;
-        }
+		/* コンテナ：スマホでは全幅、PCでは最大700pxまで広がる */
+		.ranking-container {
+		    width: 100%;
+		    max-width: 700px; /* ここを広げてPC対応 */
+		    background-color: lightgreen;
+		    border: 2px solid rgb(0, 128, 255);
+		    box-shadow: 0 0 15px rgba(0, 128, 255, 0.4);
+		    padding: 15px;
+		    box-sizing: border-box;
+		    margin: 20px;
+		}
 
-        /* ヘッダー */
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 5px 0 10px;
-            border-bottom: 3px solid royalblue;
-            position: relative;
-        }
+		/* ヘッダー */
+		.header {
+		    display: flex;
+		    justify-content: space-between;
+		    align-items: center;
+		    padding: 10px 0;
+		    border-bottom: 3px solid royalblue;
+		}
 
-        .header h1 {
-            font-size: 32px;
-            font-weight: bold;
-            margin: 0;
-            padding: 0;
-            letter-spacing: 2px;
-			-webkit-text-stroke: 1.3px royalblue;
-        }
+		.header h1 {
+		    font-size: clamp(28px, 5vw, 40px); /* 可変フォント */
+		    font-weight: bold;
+		    margin: 0;
+		    letter-spacing: 2px;
+		    -webkit-text-stroke: 1.3px royalblue;
+		}
 
-        .profile-btn {
-            background-color: #b8f3f6;
-            color: black;
-            border: 2px solid black;
-            padding: 8px 15px;
-            font-weight: bold;
-            cursor: pointer;
-            text-transform: uppercase;
-            font-size: 14px;
-			border-radius: 20px;
-        }
+		.profile-btn {
+		    background-color: #b8f3f6;
+		    color: black;
+		    border: 2px solid black;
+		    padding: 8px 20px;
+		    font-weight: bold;
+		    cursor: pointer;
+		    border-radius: 20px;
+		    transition: all 0.3s ease;
+		}
+
 		.profile-btn:hover {
-			background-color: rgb(0, 128, 255); 
-            color: whitesmoke; 
-            box-shadow: 0 0 10px rgb(0, 128, 255); 
-        }
+		    background-color: rgb(0, 128, 255); 
+		    color: whitesmoke; 
+		    box-shadow: 0 0 10px rgb(0, 128, 255); 
+		}
 
 		/* メニューボタン */
 		.menu-grid {
-			display: grid;
-			grid-template-columns: 1fr 1fr; /* 2列に分割 */
-			gap: 10px; 
-			margin-top: 10px;
-			margin-bottom: 10px;
-		}
-
-		.menu-grid a {
-			text-decoration: none; 
+		    display: grid;
+		    grid-template-columns: 1fr 1fr; /* PCでも2列（4ボタンなら2x2が綺麗） */
+		    gap: 12px; 
+		    margin: 15px 0;
 		}
 
 		.menu-grid button {
-			width: 100%;
-			height: 40px;
-			background-color: #b8f3f6;
-			color: black;
-			border: 2px solid black;
-			font-weight: bold;
-			cursor: pointer;
-			transition: background-color 0.3s ease, transform 0.2s ease; 
-            /* 修正点3: 枠線に丸みを持たせる */
-            border-radius: 20px; 
+		    width: 100%;
+		    height: 45px;
+		    background-color: #b8f3f6;
+		    color: black;
+		    border: 2px solid black;
+		    font-weight: bold;
+		    cursor: pointer;
+		    border-radius: 20px;
+		    transition: all 0.3s ease;
 		}
-        
-        .menu-grid button:hover {
-			background-color: rgb(0, 128, 255); 
-            color: whitesmoke; 
-            transform: translateY(-2px); 
-            box-shadow: 0 0 10px rgb(0, 128, 255);
-        }
 
-
-        /* メダル情報 */
-        .medal-info {
-            background-color: #b8f3f6;
-			color: black;
-            border: 1px solid black;
-            margin-top: 15px;
-            padding: 10px;
-        }
-
-        .medal-row {
-            display: flex;
-            justify-content: space-between;
-            padding: 5px 0;
-            font-size: 16px;
-        }
-        
-        /* ユーザーランキングテーブル */
-        .ranking-table {
-            margin-top: 20px;
-        }
-
-        .ranking-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 8px 0;
-            font-size: 24px;
-            font-weight: bold;
-            text-align: center;
-			font-family: Arial, sans-serif;
-			-webkit-text-stroke: 1px royalblue;
-        }
-
-        .arrow {
-            font-size: 20px;
-            cursor: pointer;
-            padding: 0 10px;
-        }
-        
-        /* ここがスクロール設定の重要な変更点です */
-        .ranking-list {
-			color: black;
-            margin-top: 5px;
-            border-top: 2px solid royalblue;
-            max-height: 350px; /* スクロール領域の最大高さを設定 */
-            overflow-y: scroll; /* 縦方向のスクロールを有効にする */
-            -ms-overflow-style: none; /* IEとEdgeでスクロールバーを非表示 */
-            scrollbar-width: none; /* Firefoxでスクロールバーを非表示 */
-        }
-		
-		/* 自分のランキング行の強調表示スタイル */
-		.ranking-list .ranking-row.is-me {
-		    background-color: #b8f3f6; /* やや明るい背景 */
-		    border: 2px solid royalblue; /* 太い枠線 */
-		    transform: scale(1.01); /* やや拡大 */
-		    transition: all 0.2s ease;
+		.menu-grid button:hover {
+		    background-color: rgb(0, 128, 255); 
+		    color: whitesmoke; 
+		    transform: translateY(-2px);
+		    box-shadow: 0 0 10px rgb(0, 128, 255);
 		}
-        
-        /* Webkit系のブラウザ (Chrome, Safari) でスクロールバーを非表示にする */
-        .ranking-list::-webkit-scrollbar {
-            display: none;
-        }
 
-        .ranking-row {
-            display: flex;
-            border-bottom: 1px solid royalblue;
-            font-size: 18px;
-        }
-        
-        /* 最後の行の区切り線を消す */
-        .ranking-list .ranking-row:last-child {
-             border-bottom: none;
-        }
+		/* メダル情報 */
+		.medal-info {
+		    background-color: #b8f3f6;
+		    color: black;
+		    border: 2px solid black;
+		    margin-top: 15px;
+		    padding: 12px 20px;
+		    border-radius: 10px;
+		}
 
-        .ranking-row > div {
-            padding: 10px 5px;
-            text-align: center;
-            border-right: 1px solid royalblue;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-sizing: border-box;
-        }
+		.medal-row {
+		    display: flex;
+		    justify-content: space-between;
+		    font-size: 18px;
+		    font-weight: bold;
+		}
 
-        .ranking-row > div:last-child {
-            border-right: none;
-        }
+		/* 自分のランキング (固定表示) */
+		.my-ranking {
+		    color: black;
+		    margin: 15px 0;
+		    border: 3px solid royalblue;
+		    border-radius: 10px;
+		    background-color: rgba(255, 255, 255, 0.3);
+		}
 
-        .rank-col {
-            width: 15%;
-            font-weight: bold;
-        }
+		/* ランキングテーブル共通設定 */
+		.ranking-table {
+		    margin-top: 10px;
+		}
 
-        .name-col {
-            width: 45%;
-            justify-content: flex-start;
-            padding-left: 15px !important;
-        }
+		.ranking-header {
+		    display: flex;
+		    justify-content: space-between;
+		    align-items: center;
+		    padding: 10px 0;
+		    font-size: 26px;
+		    font-weight: bold;
+		    -webkit-text-stroke: 1px royalblue;
+		}
 
-        .medals-col {
-            width: 40%;
-        }
+		/* ランキングリスト (スクロール領域) */
+		.ranking-list {
+		    color: black;
+		    border: 2px solid royalblue;
+		    border-radius: 10px;
+		    background-color: rgba(255, 255, 255, 0.5);
+		    max-height: 400px; /* PC向けに少し高く */
+		    overflow-y: auto;
+		}
 
-        /* 自分のランキング (下部の固定表示) */
-        .my-ranking {
-			color: black;
-            margin-top: 10px; /* スクロール領域との間隔を調整 */
-            border: 2px solid royalblue;
-            font-size: 18px;
-        }
-        
-        .my-ranking .ranking-row {
-            border-bottom: none;
-        }
-        
-        .my-ranking .ranking-row > div {
-            padding: 15px 5px;
-        }
-        
+		/* スクロールバーのデザイン（非表示にしない設定） */
+		.ranking-list::-webkit-scrollbar {
+		    width: 8px;
+		}
+		.ranking-list::-webkit-scrollbar-thumb {
+		    background: royalblue;
+		    border-radius: 10px;
+		}
+
+		.ranking-row {
+		    display: flex;
+		    border-bottom: 1px solid rgba(65, 105, 225, 0.3);
+		    font-size: 18px;
+		}
+
+		.ranking-row.is-me {
+		    background-color: #b8f3f6;
+		    font-weight: bold;
+		}
+
+		.ranking-row > div {
+		    padding: 15px 10px;
+		    display: flex;
+		    align-items: center;
+		    justify-content: center;
+		}
+
+		.rank-col { width: 15%; font-weight: bold; border-right: 1px solid rgba(65, 105, 225, 0.2); }
+		.name-col { width: 50%; justify-content: flex-start !important; padding-left: 20px !important; border-right: 1px solid rgba(65, 105, 225, 0.2); }
+		.medals-col { width: 35%; }
+
+		/* --- PC用メディアクエリ (幅600px以上) --- */
+		@media (min-width: 600px) {
+		    .ranking-container {
+		        padding: 30px;
+		    }
+		    
+		    .menu-grid {
+		        grid-template-columns: repeat(4, 1fr); /* PCではボタンを横4つ並びにする */
+		        gap: 15px;
+		    }
+
+		    .ranking-list {
+		        max-height: 550px; /* PCではより多くの順位を一度に見せる */
+		    }
+
+		    .ranking-row {
+		        font-size: 20px; /* 文字を少し大きく */
+		    }
+		}
     </style>
 </head>
 <body>
@@ -247,7 +221,7 @@
 	<div class="medal-info">
 		<div class="medal-row">
 			<span>My Medals</span>
-			<span th:text="${#numbers.formatDecimal(myMedals, 0, 'COMMA', 0, 'POINT')} + ' $'">1000 $</span>
+			<span th:text="${#numbers.formatDecimal(myMedals, 0, 'COMMA', 0, 'POINT')} + ' 枚'">1000 </span>
         </div>
 	</div>
 	
@@ -255,7 +229,7 @@
 		<div class="ranking-row">
             <div class="rank-col" th:text="${myRankingInfo.rank}">10</div>
             <div class="name-col" th:text="${myRankingInfo.nickname}">Me</div>
-            <div class="medals-col user-medals" th:text="${#numbers.formatDecimal(myRankingInfo.medals, 0, 'COMMA', 0, 'POINT')} + ' $'">2000 $</div>
+            <div class="medals-col user-medals" th:text="${#numbers.formatDecimal(myRankingInfo.medals, 0, 'COMMA', 0, 'POINT')} + ' 枚'">2000 $</div>
         </div>
     </div>
 	    
