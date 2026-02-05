@@ -41,14 +41,14 @@ public class RankingController {
         // 2. ランキングリスト（Top 50）を取得
         List<RankingDto> rankingList = rankingService.getFullRankingList(currentLoginId);
         
-        // 3. 自分のランキング情報（画面下部の固定表示用）を取得
+        // 3. 自分のランキング情報を取得
         RankingDto myRankingInfo = rankingService.getMyRankingInfo(currentLoginId, rankingList);
         
         // 4. データをModelに追加
         model.addAttribute("nickname", nickname); // ニックネーム
         model.addAttribute("myMedals", myMedals); // My Medals
         model.addAttribute("rankingList", rankingList); // Top 50のリスト
-        model.addAttribute("myRankingInfo", myRankingInfo); // 自分の順位情報 (画面下部)
+        model.addAttribute("myRankingInfo", myRankingInfo); // 自分の順位情報
         
         return "ranking";
     }
