@@ -55,6 +55,8 @@ public class HighLowService {
         // カードの値が同じ場合は引き分け（一般的に負け扱い）
         if (newCardValue == faceUpCardValue) {
             return "LOSE"; 
+        }else if(newCardValue == 1) {
+        	return "LOSE";
         }
 
         boolean isHigh = newCardValue > faceUpCardValue;
